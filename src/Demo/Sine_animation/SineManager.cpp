@@ -1,0 +1,46 @@
+#include "SineManager.h"
+
+#include "CubeDriver\CubeDriver.h"
+#include "Demo\DemoManager.h"
+#include "math8.h"
+
+extern CubeDriver* cube;
+
+void SineManager::init(void (*_renderInterrupt)()) {
+  renderInterrupt = _renderInterrupt;
+}
+
+void SineManager::update() {
+  // phaseSpd += touchbarManager.getSpd().x * 0.5;
+  // phaseSpd = constrain(phaseSpd, 0, 10);
+  // hueOffset += touchbarManager.getSpd().z * 10;
+  // hueScale += touchbarManager.getRotationSpd() * 10;
+
+  phase += phaseSpd * cube->getDt();
+  while (phase > 2 * PI) phase -= 2 * PI;
+
+  for (uint8_t x = 0; x < cube->width; x++) {
+    renderInterrupt();
+    // convert cube x to floating point coordinate between x_min and x_max
+    float xprime = mapf(x, 0, cube->width - 1, x_min, x_max);
+    for (uint8_t z = 0; z < cube->depth; z++) {
+      // convert cube z to floating point coordinate between z_min and z_max
+      float zprime = mapf(z, 0, cube->depth - 1, z_min, z_max);
+      // determine y floating point coordinate
+      float yprime = sinf(phase + sqrtf(xprime * xprime + zprime * zprime));
+      // convert floating point y back to cube y
+      float y = mapf(yprime, -1, 1, 0, cube->height - 1);
+      // display voxel on the cube
+      // Color c = Color((hue16 >> 8) + y * 10, &RainbowGradientPalette[0]);
+      int fy = floor(y)-1;
+      int cy = ceil(y)+1;
+      for (int _y = fy; _y <= cy; _y++) {
+        float bri = 1 - max(abs(y - _y) * 0.5, 0);
+        Color col = Color(hueOffset + y * hueScale, 100, demoManager.getBri() * bri, HSB_MODE);
+        cube->setPixel(x, _y, z, col);
+      }
+    }
+  }
+}
+
+SineManager sineManager;

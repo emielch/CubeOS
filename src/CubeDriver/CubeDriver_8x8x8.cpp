@@ -1,4 +1,4 @@
-#include "CubeDriver_8x8x8.h"
+#include "CubeDriver\CubeDriver_8x8x8.h"
 
 void CubeDriver_8x8x8::init() {
   bufsize = LEDS_PER_CHANNEL * 24;
