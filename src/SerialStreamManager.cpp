@@ -1,5 +1,7 @@
 #include "SerialStreamManager.h"
 
+#include <EEPROM.h>
+
 #include "CubeDriver\CubeDriver.h"
 #include "Demo\DemoManager.h"
 
@@ -7,6 +9,21 @@ extern CubeDriver* cube;
 
 void SerialStreamManager::init() {
   Serial.setTimeout(50);
+}
+
+byte SerialStreamManager::getCubeID() {
+  byte cubeID = 0;
+  EEPROM.get(64, cubeID);
+  return cubeID;
+}
+
+void SerialStreamManager::setCubeID(byte ID) {
+  EEPROM.put(64, ID);
+  sendInfo();
+}
+
+void SerialStreamManager::sendInfo() {
+  Serial.printf("CUBE,%i,%i,%i,%i\r\n", getCubeID(), cube->width, cube->height, cube->depth);
 }
 
 void SerialStreamManager::update() {
@@ -31,7 +48,7 @@ void SerialStreamManager::update() {
   } else if (startChar == '?') {
     // when the video application asks, give it all our info
     // for easy and automatic configuration
-    Serial.printf("CUBE,%i,%i,%i\r\n", cube->width, cube->height, cube->depth);
+    sendInfo();
   } else if (startChar == 'd') {
     demoManager.enableDemo();
   } else if (startChar == 'x') {
@@ -46,6 +63,10 @@ void SerialStreamManager::update() {
     demoManager.adjBri(1);
   } else if (startChar == '-') {
     demoManager.adjBri(-1);
+  } else if (startChar == '[') {
+    setCubeID(getCubeID() - 1);
+  } else if (startChar == ']') {
+    setCubeID(getCubeID() + 1);
   } else if (startChar >= 0) {
     // discard unknown characters
   }
