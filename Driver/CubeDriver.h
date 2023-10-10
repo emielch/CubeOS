@@ -1,7 +1,8 @@
 #pragma once
 
 #include <Arduino.h>
-#include <Color.h>
+
+#include "../Color/Color.h"
 
 class CubeDriver {
  public:
@@ -13,7 +14,7 @@ class CubeDriver {
   void setPixel(byte x, byte y, byte z, Color c);
   void setPixel(byte x, byte y, byte z, int c);
   void setPixel(int id, Color c);
-  
+
   virtual void setPixel(int id, byte r, byte g, byte b) = 0;
   virtual void setPixel(int id, int c) = 0;
 

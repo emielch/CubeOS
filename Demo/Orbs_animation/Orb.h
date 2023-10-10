@@ -1,6 +1,6 @@
 #pragma once
-#include <Color.h>
 
+#include "../../Color/Color.h"
 #include "Vector3.h"
 
 class Orb {
