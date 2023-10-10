@@ -1,3 +1,4 @@
+#if CUBE8
 #pragma once
 
 #include "CubeDriver.h"
@@ -44,3 +45,5 @@ class CubeDriver_8x8x8 : public CubeDriver {
   uint32_t bufsize;
   int posLUT[WIDTH][HEIGHT][DEPTH];
 };
+
+#endif

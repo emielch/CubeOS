@@ -1,3 +1,4 @@
+#if CUBE16
 #pragma once
 
 #include <OctoWS2811.h>
@@ -34,3 +35,5 @@ class CubeDriver_OK16 : public CubeDriver {
   uint32_t bufsize;
   int posLUT[WIDTH][HEIGHT][DEPTH];
 };
+
+#endif

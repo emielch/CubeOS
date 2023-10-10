@@ -1,3 +1,5 @@
+#if CUBE8
+
 #include "CubeDriver_8x8x8.h"
 
 void CubeDriver_8x8x8::init() {
@@ -59,3 +61,5 @@ int CubeDriver_8x8x8::getPixelLedId(byte x, byte y, byte z) {
   if (x >= width || y >= height || z >= depth) return -1;
   return posLUT[x][y][z];
 }
+
+#endif

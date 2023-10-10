@@ -1,4 +1,5 @@
-#if defined(__IMXRT1062__)
+#if CUBE16
+
 #include "CubeDriver_OK16.h"
 
 void CubeDriver_OK16::init() {
@@ -64,4 +65,5 @@ int CubeDriver_OK16::getPixelLedId(byte x, byte y, byte z) {
   if (x >= width || y >= height || z >= depth) return -1;
   return posLUT[x][y][z];
 }
+
 #endif
