@@ -36,7 +36,7 @@ class CubeDriver {
   virtual void resetLEDs() = 0;
   virtual int getPixelLedId(byte x, byte y, byte z) = 0;
 
-  float dt;
+  float dt = 0;
   void calcDt();
 
   elapsedMicros sinceDtCalc = 0;  // variable to keep track of the loops per second

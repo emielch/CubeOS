@@ -60,9 +60,9 @@ void Orb::move(float dt) {
 }
 
 void Orb::reset(float x, float y, float z) {
-  if (x == -1) x = random(0, cube->width - 1);
-  if (y == -1) y = random(0, cube->height - 1);
-  if (z == -1) z = random(0, cube->depth - 1);
+  if (x == -1) x = random(0, cube->width * 1000) / 1000.;
+  if (y == -1) y = random(0, cube->height * 1000) / 1000.;
+  if (z == -1) z = random(0, cube->depth * 1000) / 1000.;
   pos = {x, y, z};
 }
 

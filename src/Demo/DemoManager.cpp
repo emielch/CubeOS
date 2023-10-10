@@ -63,6 +63,7 @@ void DemoManager::disableDemo() {
 }
 void DemoManager::startDemo() {
   demoRunning = true;
+  orbsManager.init(renderInterrupt);
 }
 void DemoManager::stopDemo() {
   demoRunning = false;
