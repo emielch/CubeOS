@@ -1,14 +1,12 @@
 #pragma once
 
-#define DITHER 1
+#include "CubeDriver.h"
 
 #if DITHER
 #include <OctoWS2811_dither.h>
 #else
 #include <OctoWS2811.h>
 #endif
-
-#include "CubeDriver.h"
 
 class CubeDriver_8x8x8 : public CubeDriver {
  public:
