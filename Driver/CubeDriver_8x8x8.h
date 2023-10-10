@@ -8,7 +8,7 @@
 #include <OctoWS2811.h>
 #endif
 
-#include "CubeDriver\CubeDriver.h"
+#include "CubeDriver.h"
 
 class CubeDriver_8x8x8 : public CubeDriver {
  public:

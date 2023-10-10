@@ -1,10 +1,10 @@
 #include "DemoManager.h"
 
-#include "CubeDriver\CubeDriver.h"
-#include "Orbs_animation/OrbsManager.h"
-#include "Rainbow_animation/RainbowManager.h"
-#include "SerialStreamManager.h"
-#include "Sine_animation/SineManager.h"
+#include "CubeOS\Driver\CubeDriver.h"
+#include "CubeOS\SerialStreamManager.h"
+#include "Orbs_animation\OrbsManager.h"
+#include "Rainbow_animation\RainbowManager.h"
+#include "Sine_animation\SineManager.h"
 
 #define STREAM_BLACKOUT_DELAY 500
 #define DEMO_DELAY 3000

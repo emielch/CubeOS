@@ -1,7 +1,7 @@
 #include "SineManager.h"
 
-#include "CubeDriver\CubeDriver.h"
-#include "Demo\DemoManager.h"
+#include "CubeOS\Demo\DemoManager.h"
+#include "CubeOS\Driver\CubeDriver.h"
 #include "math8.h"
 
 extern CubeDriver* cube;
@@ -32,8 +32,8 @@ void SineManager::update() {
       float y = mapf(yprime, -1, 1, 0, cube->height - 1);
       // display voxel on the cube
       // Color c = Color((hue16 >> 8) + y * 10, &RainbowGradientPalette[0]);
-      int fy = floor(y)-1;
-      int cy = ceil(y)+1;
+      int fy = floor(y) - 1;
+      int cy = ceil(y) + 1;
       for (int _y = fy; _y <= cy; _y++) {
         float bri = 1 - max(abs(y - _y) * 0.5, 0);
         Color col = Color(hueOffset + y * hueScale, 100, demoManager.getBri() * bri, HSB_MODE);

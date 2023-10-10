@@ -1,7 +1,7 @@
 #include "Orb.h"
 
-#include "CubeDriver\CubeDriver.h"
-#include "Demo\DemoManager.h"
+#include "CubeOS\Demo\DemoManager.h"
+#include "CubeOS\Driver\CubeDriver.h"
 
 extern CubeDriver* cube;
 

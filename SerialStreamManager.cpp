@@ -2,7 +2,7 @@
 
 #include <EEPROM.h>
 
-#include "CubeDriver\CubeDriver.h"
+#include "Driver\CubeDriver.h"
 #include "Demo\DemoManager.h"
 
 extern CubeDriver* cube;
