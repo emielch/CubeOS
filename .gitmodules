@@ -1,0 +1,3 @@
+[submodule "lib/OctoWS2811_Dither"]
+	path = lib/OctoWS2811_Dither
+	url = https://github.com/emielch/OctoWS2811_Dither.git
