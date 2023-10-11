@@ -9,6 +9,8 @@ class SerialStreamManager {
   unsigned long getSinceNewFrame() { return sinceNewFrame; }
   byte getCubeID();
   void setCubeID(byte ID);
+  static void decreaseCubeID();
+  static void increaseCubeID();
 
  private:
   elapsedMillis sinceNewFrame = 999999;
