@@ -4,7 +4,7 @@
 
 void CubeDriver_OK16::init() {
   bufsize = LEDS_PER_CHANNEL * 24;
-  const int config = WS2811_RGB | WS2811_800kHz;
+  const int config = WS2811_GRB | WS2811_800kHz;
   byte pinList[numPins] = {33, 32, 34, 31, 35, 30, 36, 29, 37, 25, 38, 26, 39, 27, 40, 28, 41, 10, 13, 9, 14, 8, 15, 6, 16, 5, 17, 4, 18, 3, 19, 2};
   leds = new OctoWS2811(LEDS_PER_CHANNEL, displayMemory, drawingMemory, config, numPins, pinList);
   leds->begin();
@@ -14,12 +14,12 @@ void CubeDriver_OK16::init() {
       for (int y = 0; y < height; y++) {
         int id = z * LEDS_PER_CHANNEL * 2;
 
-        if (x <= width / 2) {
+        if (x < width / 2) {
           id += x * height;
-          id += (x % 2) ? y : (height - 1 - y);
+          id += (x % 2) ? (height - 1 - y) : y;
         } else {
           id += (width - 1 - x + width / 2) * height;
-          id += (x % 2) ? (height - 1 - y) : y;
+          id += (x % 2) ? y : (height - 1 - y);
         }
 
         posLUT[x][y][z] = id;
