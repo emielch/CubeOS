@@ -62,9 +62,16 @@ void DemoManager::switchAnim(DemoAnim d) {
 
 void DemoManager::adjBri(int v) {
   if (currAnim == Rainbow) v *= 2;
-  brightness += v;  // * brightness * 0.2;
+  brightness = constrain(brightness + v, 0, 100);
   Serial.println(brightness);
   rainbowManager.init(renderInterrupt, constrain(brightness, 0, 100));
+}
+
+void DemoManager::incBri() {
+  demoManager.adjBri(1);
+}
+void DemoManager::decBri() {
+  demoManager.adjBri(-1);
 }
 
 void DemoManager::nextDemo() {

@@ -17,6 +17,8 @@ class DemoManager {
   void disableDemo();
   void switchAnim(DemoAnim d);
   void adjBri(int v);
+  static void incBri();
+  static void decBri();
   float getBri() { return brightness; }
   static void nextDemo();
   static void prevDemo();

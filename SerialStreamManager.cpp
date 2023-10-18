@@ -23,11 +23,11 @@ void SerialStreamManager::setCubeID(byte ID) {
 }
 
 void SerialStreamManager::decreaseCubeID() {
-  serialStreamManager.setCubeID(serialStreamManager.getCubeID() - 1);
+  serialStreamManager.setCubeID(constrain(serialStreamManager.getCubeID() - 1, 0, 10));
 }
 
 void SerialStreamManager::increaseCubeID() {
-  serialStreamManager.setCubeID(serialStreamManager.getCubeID() + 1);
+  serialStreamManager.setCubeID(constrain(serialStreamManager.getCubeID() + 1, 0, 10));
 }
 
 void SerialStreamManager::sendInfo() {
@@ -72,9 +72,9 @@ void SerialStreamManager::update() {
   } else if (startChar == 's') {
     demoManager.switchAnim(Sine);
   } else if (startChar == '=') {
-    demoManager.adjBri(1);
+    demoManager.incBri();
   } else if (startChar == '-') {
-    demoManager.adjBri(-1);
+    demoManager.decBri();
   } else if (startChar == '[') {
     decreaseCubeID();
   } else if (startChar == ']') {
