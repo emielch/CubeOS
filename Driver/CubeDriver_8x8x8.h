@@ -32,13 +32,11 @@ class CubeDriver_8x8x8 : public CubeDriver {
 
   static const int LEDS_PER_CHANNEL = 64;
   int displayMemory[LEDS_PER_CHANNEL * 6];
-
+  int drawingMemory[LEDS_PER_CHANNEL * 6];
 #if DITHER
-  COL_RGB drawingMemory[LEDS_PER_CHANNEL * 8];
-  COL_RGB writingMemory[LEDS_PER_CHANNEL * 8];
+  int writingMemory[LEDS_PER_CHANNEL * 6];
   OctoWS2811_Dither *leds;
 #else
-  int drawingMemory[LEDS_PER_CHANNEL * 6];
   OctoWS2811 *leds;
 #endif
 
