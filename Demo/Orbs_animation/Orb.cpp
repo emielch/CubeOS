@@ -18,6 +18,7 @@ void Orb::init(float _size, float _spd, float _hue) {
 }
 
 void Orb::move(float dt) {
+  if (dt > 0.1) dt = 0.1;
   hue += 5 * dt;
   if (hue >= 360) hue -= 360;
   c.setHSB(hue, 100, demoManager.getBri());

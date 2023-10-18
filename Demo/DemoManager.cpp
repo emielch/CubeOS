@@ -1,5 +1,7 @@
 #include "DemoManager.h"
 
+#include <EEPROM.h>
+
 #include "CubeOS\Driver\CubeDriver.h"
 #include "CubeOS\SerialStreamManager.h"
 #include "Orbs_animation\OrbsManager.h"
@@ -11,8 +13,18 @@
 
 extern CubeDriver* cube;
 
+void exciteRandomizer() {
+  uint32_t randomSeedVar = 0;
+  EEPROM.get(0, randomSeedVar);
+  randomSeedVar++;
+  EEPROM.put(0, randomSeedVar);
+  randomSeed(randomSeedVar);
+}
+
 void DemoManager::init(void (*_renderInterrupt)()) {
+  exciteRandomizer();
   renderInterrupt = _renderInterrupt;
+  if (renderInterrupt == nullptr) renderInterrupt = emptyFunct;
   orbsManager.init(renderInterrupt);
   sineManager.init(renderInterrupt);
   rainbowManager.init(renderInterrupt, brightness);
@@ -21,6 +33,7 @@ void DemoManager::init(void (*_renderInterrupt)()) {
 }
 
 void DemoManager::update() {
+  if (paused) return;
   if (serialStreamManager.getSinceNewFrame() < STREAM_BLACKOUT_DELAY) {
     if (demoRunning) stopDemo();
     return;  // if a streaming frame has been received recently, we are still in streaming mode and we shouldn't interfere with the LEDs
@@ -48,10 +61,24 @@ void DemoManager::switchAnim(DemoAnim d) {
 }
 
 void DemoManager::adjBri(int v) {
-  if (currAnim == Rainbow) v *= 4;
+  if (currAnim == Rainbow) v *= 2;
   brightness += v;  // * brightness * 0.2;
   Serial.println(brightness);
   rainbowManager.init(renderInterrupt, constrain(brightness, 0, 100));
+}
+
+void DemoManager::nextDemo() {
+  if (demoManager.currAnim + 1 >= DemoAm)
+    demoManager.currAnim = (DemoAnim)0;
+  else
+    demoManager.currAnim = (DemoAnim)(demoManager.currAnim + 1);
+}
+
+void DemoManager::prevDemo() {
+  if (demoManager.currAnim - 1 < 0)
+    demoManager.currAnim = (DemoAnim)(DemoAm - 1);
+  else
+    demoManager.currAnim = (DemoAnim)(demoManager.currAnim - 1);
 }
 
 void DemoManager::enableDemo() {

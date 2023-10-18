@@ -59,6 +59,8 @@ void SerialStreamManager::update() {
     sendInfo();
   } else if (startChar == 'f') {
     Serial.printf("FPS: %.2f\r\n", cube->getFPS());
+  } else if (startChar == 'p') {
+    demoManager.togglePaused();
   } else if (startChar == 'd') {
     demoManager.enableDemo();
   } else if (startChar == 'x') {

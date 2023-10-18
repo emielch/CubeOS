@@ -11,7 +11,7 @@ void RainbowManager::init(void (*_renderInterrupt)(), float bri) {
   for (int i = 0; i < 180; i++) {
     int hue = i * 2;
     int saturation = 100;
-    int lightness = bri / 4;
+    int lightness = bri / 2;
     // pre-compute the 180 rainbow colors
     rainbowColors[i] = makeColor(hue, saturation, lightness);
   }
