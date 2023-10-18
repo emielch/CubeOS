@@ -2,7 +2,7 @@
 #pragma once
 
 #if DITHER
-#include <OctoWS2811.h>
+#include <OctoWS2811_Dither.h>
 #else
 #include <OctoWS2811.h>
 #endif
@@ -36,7 +36,7 @@ class CubeDriver_OK16 : public CubeDriver {
   int drawingMemory[LEDS_PER_CHANNEL * numPins * 3 / 4];
 #if DITHER
   int writingMemory[LEDS_PER_CHANNEL * numPins * 3 / 4];
-  OctoWS2811 *leds;
+  OctoWS2811_Dither *leds;
 #else
   OctoWS2811 *leds;
 #endif
