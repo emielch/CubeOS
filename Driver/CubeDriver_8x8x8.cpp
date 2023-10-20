@@ -6,7 +6,7 @@ void CubeDriver_8x8x8::init() {
   bufsize = LEDS_PER_CHANNEL * 24;
   const int config = WS2811_RGB | WS2811_800kHz;
 #if DITHER
-  leds = new OctoWS2811_Dither(LEDS_PER_CHANNEL, displayMemory, writingMemory, drawingMemory, config);
+  leds = new OctoWS2811_Dither(LEDS_PER_CHANNEL, displayMemory, writingMemory, drawingMemory, config, 3);
 #else
   leds = new OctoWS2811(LEDS_PER_CHANNEL, displayMemory, drawingMemory, config);
 #endif
