@@ -28,7 +28,7 @@ void DemoManager::init(void (*_renderInterrupt)()) {
   orbsManager.init(renderInterrupt);
   sineManager.init(renderInterrupt);
   rainbowManager.init(renderInterrupt, brightness);
-  currAnim = Orbs;
+  currAnim = Rainbow;
   enableDemo();
 }
 
@@ -61,7 +61,7 @@ void DemoManager::switchAnim(DemoAnim d) {
 }
 
 void DemoManager::adjBri(int v) {
-  if (currAnim == Rainbow) v *= 2;
+  // if (currAnim == Rainbow) v *= 2;
   brightness = constrain(brightness + v, 0, 100);
   Serial.println(brightness);
   rainbowManager.init(renderInterrupt, constrain(brightness, 0, 100));
