@@ -26,7 +26,11 @@ class DemoManager {
   bool getDemoRunning() { return demoRunning; }
 
  private:
+#if DITHER
   float brightness = 35;
+#else
+  float brightness = 15;
+#endif
   DemoAnim currAnim;
   void startDemo();
   void stopDemo();
