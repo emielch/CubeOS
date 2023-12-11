@@ -34,11 +34,16 @@ void SerialStreamManager::sendInfo() {
   Serial.printf("CUBE,%i,%i,%i,%i\r\n", getCubeID(), cube->width, cube->height, cube->depth);
 }
 
+void SerialStreamManager::sendDiff(bool diff) {
+  Serial.printf("DIFF,%i\r\n", diff);
+}
+
 void SerialStreamManager::update() {
   int startChar = Serial.read();
 
   if (startChar == '%') {
     // receive a frame
+    bool isDiff = false;
     for (int z = 0; z < cube->depth; z++)
       for (int y = 0; y < cube->height; y++)
         for (int x = 0; x < cube->width; x++) {
@@ -48,10 +53,14 @@ void SerialStreamManager::update() {
               return;
             }
           }
-          cube->setPixel(x, y, z, Serial.read(), Serial.read(), Serial.read());
+          if (!isDiff)
+            isDiff = cube->setPixel(x, y, z, Serial.read(), Serial.read(), Serial.read(), true);
+          else
+            cube->setPixel(x, y, z, Serial.read(), Serial.read(), Serial.read());
         }
     sinceNewFrame = 0;
-    cube->update();
+    cube->update(false);
+    sendDiff(isDiff);
 
   } else if (startChar == '?') {
     // when the video application asks, give it all our info

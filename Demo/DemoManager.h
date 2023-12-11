@@ -27,7 +27,7 @@ class DemoManager {
 
  private:
 #if DITHER
-  float brightness = 35;
+  float brightness = 50;
 #else
   float brightness = 15;
 #endif

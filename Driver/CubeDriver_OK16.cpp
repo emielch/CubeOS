@@ -32,14 +32,27 @@ void CubeDriver_OK16::init() {
   }
 }
 
-void CubeDriver_OK16::setPixel(int id, byte r, byte g, byte b) {
-  if (id == -1) return;
+bool CubeDriver_OK16::setPixel(int id, byte r, byte g, byte b, bool checkDiff) {
+  if (id == -1) return false;
+  if (checkDiff) {
+    int oldC = leds->getPixel(id);
+    int newC = leds->color(r, g, b);
+    leds->setPixel(id, newC);
+    return newC != oldC;
+  }
   leds->setPixel(id, r, g, b);
+  return false;
 }
 
-void CubeDriver_OK16::setPixel(int id, int c) {
-  if (id == -1) return;
+bool CubeDriver_OK16::setPixel(int id, int c, bool checkDiff) {
+  if (id == -1) return false;
+  if (checkDiff) {
+    int oldC = leds->getPixel(id);
+    leds->setPixel(id, c);
+    return c != oldC;
+  }
   leds->setPixel(id, c);
+  return false;
 }
 
 Color CubeDriver_OK16::getPixel(int id) {

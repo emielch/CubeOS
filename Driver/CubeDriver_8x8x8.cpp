@@ -24,14 +24,16 @@ void CubeDriver_8x8x8::init() {
   }
 }
 
-void CubeDriver_8x8x8::setPixel(int id, byte r, byte g, byte b) {
-  if (id == -1) return;
+void CubeDriver_8x8x8::setPixel(int id, byte r, byte g, byte b, bool checkDiff) {
+  if (id == -1) return false;
   leds->setPixel(id, r, g, b);
+  return false;
 }
 
-void CubeDriver_8x8x8::setPixel(int id, int c) {
-  if (id == -1) return;
+void CubeDriver_8x8x8::setPixel(int id, int c, bool checkDiff) {
+  if (id == -1) return false;
   leds->setPixel(id, c);
+  return false;
 }
 
 Color CubeDriver_8x8x8::getPixel(int id) {

@@ -11,7 +11,7 @@ class OrbsManager {
 
  private:
   void touchInput();
-  const static int orbAm = 30;
+  const static int orbAm = 15;
   Orb orbs[orbAm];
 
   void (*renderInterrupt)();

@@ -15,8 +15,8 @@ class CubeDriver_8x8x8 : public CubeDriver {
   void init();
 
   using CubeDriver::setPixel;
-  void setPixel(int id, byte r, byte g, byte b);
-  void setPixel(int id, int c);
+  bool setPixel(int id, byte r, byte g, byte b, bool checkDiff = false);
+  bool setPixel(int id, int c, bool checkDiff = false);
   Color getPixel(int id);
 
   bool busy();

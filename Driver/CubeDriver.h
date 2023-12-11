@@ -8,15 +8,15 @@ class CubeDriver {
  public:
   CubeDriver(byte w, byte h, byte d) : width(w), height(h), depth(d){};
   virtual void init() = 0;
-  void update();
+  void update(bool reset = true);
 
-  void setPixel(byte x, byte y, byte z, byte r, byte g, byte b);
-  void setPixel(byte x, byte y, byte z, Color c);
-  void setPixel(byte x, byte y, byte z, int c);
-  void setPixel(int id, Color c);
+  bool setPixel(byte x, byte y, byte z, byte r, byte g, byte b, bool checkDiff = false);
+  bool setPixel(byte x, byte y, byte z, Color c, bool checkDiff = false);
+  bool setPixel(byte x, byte y, byte z, int c, bool checkDiff = false);
+  bool setPixel(int id, Color c, bool checkDiff = false);
 
-  virtual void setPixel(int id, byte r, byte g, byte b) = 0;
-  virtual void setPixel(int id, int c) = 0;
+  virtual bool setPixel(int id, byte r, byte g, byte b, bool checkDiff = false) = 0;
+  virtual bool setPixel(int id, int c, bool checkDiff = false) = 0;
 
   Color getPixel(byte x, byte y, byte z);
   virtual Color getPixel(int id) = 0;
