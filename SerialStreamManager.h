@@ -13,6 +13,7 @@ class SerialStreamManager {
   static void increaseCubeID();
 
  private:
+  void readSerial();
   elapsedMillis sinceNewFrame = 999999;
   void sendInfo();
   void sendDiff(bool diff);

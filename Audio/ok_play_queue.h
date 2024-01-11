@@ -52,7 +52,7 @@ public:
 	virtual void update(void);
 	enum behaviour_e {ORIGINAL,NON_STALLING};
 	void setBehaviour(behaviour_e behave) {behaviour = behave;}
-	float getBuffFillAvg() {return queueFillAvg.getAvg()/max_buffers;}
+	float getQueueFillAvg() {return queueFillAvg.getAvg()/max_buffers;}
 	int getQueueFill(){
 		if(head>=tail){
 			return head - tail;

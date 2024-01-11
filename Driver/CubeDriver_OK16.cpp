@@ -5,7 +5,11 @@
 void CubeDriver_OK16::init() {
   bufsize = LEDS_PER_CHANNEL * numPins * 3;
   const int config = WS2811_GRB | WS2811_800kHz;
+#if ESP_AUDIO
+  byte pinList[numPins] = {33, 32, 34, 31, 35, 30, 36, 29, 37, 25, 38, 26, 39, 27, 40, 28, 41, 10, 13, 9, 14, 24, 15, 6, 16, 5, 17, 4, 18, 3, 19, 2};
+#else
   byte pinList[numPins] = {33, 32, 34, 31, 35, 30, 36, 29, 37, 25, 38, 26, 39, 27, 40, 28, 41, 10, 13, 9, 14, 8, 15, 6, 16, 5, 17, 4, 18, 3, 19, 2};
+#endif
 #if DITHER
   leds = new OctoWS2811_Dither(LEDS_PER_CHANNEL, displayMemory, writingMemory, drawingMemory, config, 2, numPins, pinList);
 #else

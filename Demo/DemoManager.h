@@ -6,6 +6,7 @@ enum DemoAnim {
   Orbs,
   Rainbow,
   Sine,
+  Specto,
   DemoAm
 };
 

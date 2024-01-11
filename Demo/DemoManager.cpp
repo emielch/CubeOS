@@ -7,8 +7,9 @@
 #include "Orbs_animation\OrbsManager.h"
 #include "Rainbow_animation\RainbowManager.h"
 #include "Sine_animation\SineManager.h"
+#include "Spectogram_animation\SpectoManager.h"
 
-#define STREAM_BLACKOUT_DELAY 500
+#define STREAM_BLACKOUT_DELAY 1500
 #define DEMO_DELAY 3000
 
 extern CubeDriver* cube;
@@ -50,6 +51,8 @@ void DemoManager::update() {
         rainbowManager.update();
       else if (currAnim == Sine)
         sineManager.update();
+      else if (currAnim == Specto)
+        spectoManager.update();
     }
   }
 

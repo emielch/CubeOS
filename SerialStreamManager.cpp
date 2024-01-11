@@ -2,6 +2,7 @@
 
 #include <EEPROM.h>
 
+#include "Audio\AudioManager.h"
 #include "Demo\DemoManager.h"
 #include "Driver\CubeDriver.h"
 
@@ -39,10 +40,16 @@ void SerialStreamManager::sendDiff(bool diff) {
 }
 
 void SerialStreamManager::update() {
+  while (Serial.available()) {
+    readSerial();
+  }
+}
+
+void SerialStreamManager::readSerial() {
   int startChar = Serial.read();
 
+  ///// IMAGE FRAME /////
   if (startChar == '%') {
-    // receive a frame
     bool isDiff = false;
     for (int z = 0; z < cube->depth; z++)
       for (int y = 0; y < cube->height; y++)
@@ -62,6 +69,28 @@ void SerialStreamManager::update() {
     cube->update(false);
     sendDiff(isDiff);
 
+    ///// AUDIO BUFFER /////
+  } else if (startChar == '$') {
+    elapsedMillis sinceWait = 0;
+    while (Serial.available() < AUDIO_BLOCK_SAMPLES * 2) {
+      if (sinceWait > 10) {
+        Serial.println("not received the expected amount of audio samples");
+        Serial.clear();
+        return;
+      }
+    }
+
+    int16_t* buf = audioManager.getBuffer();
+    if (buf == NULL) {
+      for (int i = 0; i < AUDIO_BLOCK_SAMPLES * 2; i++)
+        Serial.read();
+      Serial.println("Skipped block");
+    } else {
+      Serial.readBytes((char*)buf, AUDIO_BLOCK_SAMPLES * 2);
+      audioManager.playBuffer();
+    }
+
+    ///// DEVICE INFO /////
   } else if (startChar == '?') {
     // when the video application asks, give it all our info
     // for easy and automatic configuration
