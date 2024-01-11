@@ -229,6 +229,7 @@ void OKAudioPlayQueue::update(void)
 		transmit(block);
 		release(block);	 // we've lost interest in this block...
 		queue[t] = NULL; // ...forget it here, too
+		queueFillAvg.addSample(getQueueFill());
 	}
 }
 

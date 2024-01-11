@@ -24,11 +24,11 @@
  * THE SOFTWARE.
  */
 
-#ifndef ok_play_queue_h_
-#define ok_play_queue_h_
+#pragma once
 
 #include "Arduino.h"
 #include "AudioStream.h"
+#include "RunningAverager.h"
 
 class OKAudioPlayQueue : public AudioStream
 {
@@ -52,6 +52,14 @@ public:
 	virtual void update(void);
 	enum behaviour_e {ORIGINAL,NON_STALLING};
 	void setBehaviour(behaviour_e behave) {behaviour = behave;}
+	float getBuffFillAvg() {return queueFillAvg.getAvg()/max_buffers;}
+	int getQueueFill(){
+		if(head>=tail){
+			return head - tail;
+		}else{
+			return head + max_buffers - tail;
+		}
+	}
 private:
 	audio_block_t *queue[MAX_BUFFERS];
 	audio_block_t *userblock;
@@ -59,6 +67,6 @@ private:
 	volatile uint8_t head, tail;
 	volatile uint8_t max_buffers;
 	behaviour_e behaviour;
-};
 
-#endif
+	RunningAverager<400> queueFillAvg;
+};
