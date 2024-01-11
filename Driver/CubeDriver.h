@@ -7,6 +7,8 @@
 class CubeDriver {
  public:
   CubeDriver(byte w, byte h, byte d) : width(w), height(h), depth(d){};
+  virtual byte setDitherBits(byte ditBits) { return 0; }
+  virtual byte getDitherBits() { return 0; }
   virtual void init() = 0;
   void update(bool reset = true);
 

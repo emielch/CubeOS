@@ -32,6 +32,20 @@ void CubeDriver_OK16::init() {
   }
 }
 
+byte CubeDriver_OK16::setDitherBits(byte ditBits) {
+#if DITHER
+  return leds->setDitherBits(ditBits);
+#endif
+  return 0;
+}
+
+byte CubeDriver_OK16::getDitherBits() {
+#if DITHER
+  return leds->getDitherBits();
+#endif
+  return 0;
+}
+
 bool CubeDriver_OK16::setPixel(int id, byte r, byte g, byte b, bool checkDiff) {
   if (id == -1) return false;
   if (checkDiff) {

@@ -12,6 +12,8 @@
 class CubeDriver_OK16 : public CubeDriver {
  public:
   CubeDriver_OK16() : CubeDriver(WIDTH, HEIGHT, DEPTH){};
+  byte setDitherBits(byte ditBits);
+  byte getDitherBits();
   void init();
 
   using CubeDriver::setPixel;

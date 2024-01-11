@@ -88,6 +88,10 @@ void SerialStreamManager::update() {
     decreaseCubeID();
   } else if (startChar == ']') {
     increaseCubeID();
+  } else if (startChar == '1') {
+    Serial.println(cube->setDitherBits(cube->getDitherBits() - 1));
+  } else if (startChar == '2') {
+    Serial.println(cube->setDitherBits(cube->getDitherBits() + 1));
   } else if (startChar >= 0) {
     // discard unknown characters
   }
