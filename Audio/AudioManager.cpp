@@ -48,10 +48,15 @@ AudioConnection          patchCord15(mixer_fft, fft1024);
 const int bins[] = {0, 1, 3, 5, 8, 13, 20, 30, 50, 80, 120, 190, 220, 270, 300, 330, 390};
 
 void AudioManager::init() {
+#if defined(__IMXRT1062__)
   AudioMemory(200);
+  queue1.setMaxBuffers(50);
+#else
+  AudioMemory(100);
+  queue1.setMaxBuffers(40);
+#endif
 
   queue1.setBehaviour(OKAudioPlayQueue::NON_STALLING);
-  queue1.setMaxBuffers(50);
 
   biquad_L.setLowShelf(0, 350, 15, 1);
   biquad_R.setLowShelf(0, 350, 15, 1);

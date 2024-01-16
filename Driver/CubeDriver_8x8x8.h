@@ -9,12 +9,18 @@
 #include <OctoWS2811.h>
 #endif
 
+#define CUBEWIDTH 8
+#define CUBHEIGHT 8
+#define CUBDEPTH 8
+
 class CubeDriver_8x8x8 : public CubeDriver {
  public:
-  CubeDriver_8x8x8() : CubeDriver(WIDTH, HEIGHT, DEPTH){};
+  CubeDriver_8x8x8() : CubeDriver(CUBEWIDTH, CUBHEIGHT, CUBDEPTH){};
   byte setDitherBits(byte ditBits);
   byte getDitherBits();
-  void setBrightness(double bri) { leds->ditherLUTCalc(bri); };
+#if DITHER
+  void setBrightness(double bri) { leds->ditherLUTCalc(bri, 2); };
+#endif
   void init();
 
   using CubeDriver::setPixel;
@@ -29,10 +35,6 @@ class CubeDriver_8x8x8 : public CubeDriver {
   void resetLEDs();
   int getPixelLedId(byte x, byte y, byte z);
 
-  static const byte WIDTH = 8;
-  static const byte HEIGHT = 8;
-  static const byte DEPTH = 8;
-
   static const int LEDS_PER_CHANNEL = 64;
   int displayMemory[LEDS_PER_CHANNEL * 6];
   int drawingMemory[LEDS_PER_CHANNEL * 6];
@@ -44,7 +46,7 @@ class CubeDriver_8x8x8 : public CubeDriver {
 #endif
 
   uint32_t bufsize;
-  int posLUT[WIDTH][HEIGHT][DEPTH];
+  int posLUT[CUBEWIDTH][CUBHEIGHT][CUBDEPTH];
 };
 
 #endif

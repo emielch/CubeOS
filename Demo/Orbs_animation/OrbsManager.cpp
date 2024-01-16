@@ -1,13 +1,9 @@
 #include "OrbsManager.h"
 
-#include "CubeOS\Driver\CubeDriver.h"
-
-extern CubeDriver* cube;
-
 void OrbsManager::init(void (*_renderInterrupt)()) {
   renderInterrupt = _renderInterrupt;
   for (int i = 0; i < orbAm; i++) {
-    orbs[i].init(random(400, 1200) / 100., random(100, 500) / 100., i * 137.508);
+    orbs[i].init(random(80 + CUBEWIDTH * 20, 400 + CUBEWIDTH * 50) / 100., random(100, 500) / 100., i * 137.508);
   }
 }
 

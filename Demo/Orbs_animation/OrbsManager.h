@@ -2,6 +2,7 @@
 
 #include <Arduino.h>
 
+#include "CubeOS\Driver.h"
 #include "Orb.h"
 
 class OrbsManager {
@@ -11,7 +12,7 @@ class OrbsManager {
 
  private:
   void touchInput();
-  const static int orbAm = 15;
+  const static int orbAm = CUBEWIDTH;
   Orb orbs[orbAm];
 
   void (*renderInterrupt)();

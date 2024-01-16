@@ -1,17 +1,21 @@
 #if CUBE16
 #pragma once
 
+#include "CubeDriver.h"
+
 #if DITHER
 #include <OctoWS2811_Dither.h>
 #else
 #include <OctoWS2811.h>
 #endif
 
-#include "CubeDriver.h"
+#define CUBEWIDTH 16
+#define CUBHEIGHT 16
+#define CUBDEPTH 16
 
 class CubeDriver_OK16 : public CubeDriver {
  public:
-  CubeDriver_OK16() : CubeDriver(WIDTH, HEIGHT, DEPTH){};
+  CubeDriver_OK16() : CubeDriver(CUBEWIDTH, CUBHEIGHT, CUBDEPTH){};
   byte setDitherBits(byte ditBits);
   byte getDitherBits();
 #if DITHER
@@ -31,10 +35,6 @@ class CubeDriver_OK16 : public CubeDriver {
   void resetLEDs();
   int getPixelLedId(byte x, byte y, byte z);
 
-  static const byte WIDTH = 16;
-  static const byte HEIGHT = 16;
-  static const byte DEPTH = 16;
-
   static const int LEDS_PER_CHANNEL = 128;
   static const int numPins = 32;
   int displayMemory[LEDS_PER_CHANNEL * numPins * 3 / 4];  // * 3 for three bytes per LED, / 4 for 4 bytes in an int
@@ -47,7 +47,7 @@ class CubeDriver_OK16 : public CubeDriver {
 #endif
 
   uint32_t bufsize;
-  int posLUT[WIDTH][HEIGHT][DEPTH];
+  int posLUT[CUBEWIDTH][CUBHEIGHT][CUBDEPTH];
 };
 
 #endif
