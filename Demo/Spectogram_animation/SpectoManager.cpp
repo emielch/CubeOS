@@ -24,8 +24,8 @@ void SpectoManager::update() {
       float level = x > 15 ? 0 : peaks[peaksID][x];
       int height = level * 50 * cube->height;
       for (int y = 0; y <= cube->height; y++) {
-        float bri = y < height ? 30 : 0;
-        Color col = Color(y*15+z*5, 100-z*4+20, max(bri-z*2,0), HSB_MODE);
+        float bri = y < height ? 100 : 0;
+        Color col = Color(y*15+z*5, 100-z*4+20, max(bri-z*1.5,0), HSB_MODE);
         cube->setPixel(x, y, z, col);
       }
     }

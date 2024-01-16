@@ -5,28 +5,18 @@
 
 extern CubeDriver* cube;
 
-void RainbowManager::init(void (*_renderInterrupt)(), float bri) {
+void RainbowManager::init(void (*_renderInterrupt)()) {
   renderInterrupt = _renderInterrupt;
-  brighntess = bri;
   for (int i = 0; i < 180; i++) {
     int hue = i * 2;
     int saturation = 100;
-    int lightness = bri / 2;
+    int lightness = 50;
     // pre-compute the 180 rainbow colors
     rainbowColors[i] = makeColor(hue, saturation, lightness);
   }
 }
 
 void RainbowManager::update() {
-  // if (sinceUpdate < 20) return;
-  // sinceUpdate = 0;
-
-  // float briInc = touchbarManager.getSpd().x * 0.5;
-  // if (abs(briInc) > 0) {
-  //   brighntess += touchbarManager.getSpd().x;
-  //   init(renderInterrupt, constrain(brighntess, 0, 100));
-  // }
-
   for (byte z = 0; z < cube->depth; z++)
     for (byte y = 0; y < cube->height; y++)
       for (byte x = 0; x < cube->width; x++) {

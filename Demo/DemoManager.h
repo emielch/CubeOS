@@ -20,7 +20,6 @@ class DemoManager {
   void adjBri(int v);
   static void incBri();
   static void decBri();
-  float getBri() { return brightness; }
   static void nextDemo();
   static void prevDemo();
   void togglePaused() { paused = !paused; }
@@ -28,9 +27,9 @@ class DemoManager {
 
  private:
 #if DITHER
-  float brightness = 50;
+  double brightness = 50;
 #else
-  float brightness = 15;
+  double brightness = 15;
 #endif
   DemoAnim currAnim;
   void startDemo();

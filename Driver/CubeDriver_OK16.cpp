@@ -50,27 +50,25 @@ byte CubeDriver_OK16::getDitherBits() {
   return 0;
 }
 
-bool CubeDriver_OK16::setPixel(int id, byte r, byte g, byte b, bool checkDiff) {
-  if (id == -1) return false;
-  if (checkDiff) {
-    int oldC = leds->getPixel(id);
-    int newC = leds->color(r, g, b);
-    leds->setPixel(id, newC);
-    return newC != oldC;
-  }
+void CubeDriver_OK16::setPixel(int id, byte r, byte g, byte b) {
+  if (id == -1) return;
+#if DITHER
   leds->setPixel(id, r, g, b);
-  return false;
+#else
+  leds->setPixel(id, r * brightness, g * brightness, b * brightness);
+#endif
 }
 
-bool CubeDriver_OK16::setPixel(int id, int c, bool checkDiff) {
-  if (id == -1) return false;
-  if (checkDiff) {
-    int oldC = leds->getPixel(id);
-    leds->setPixel(id, c);
-    return c != oldC;
-  }
+void CubeDriver_OK16::setPixel(int id, int c) {
+  if (id == -1) return;
+#if DITHER
   leds->setPixel(id, c);
-  return false;
+#else
+  byte b = c & 255;  // unpack the color
+  byte g = c >> 8 & 255;
+  byte r = c >> 16 & 255;
+  leds->setPixel(id, r * brightness, g * brightness, b * brightness);
+#endif
 }
 
 Color CubeDriver_OK16::getPixel(int id) {
@@ -80,7 +78,11 @@ Color CubeDriver_OK16::getPixel(int id) {
   byte b = conn & 255;                 // unpack the color
   byte g = conn >> 8 & 255;
   byte r = conn >> 16 & 255;
+#if DITHER
   Color c(r, g, b, RGB_MODE);
+#else
+  Color c(r / brightness, g / brightness, b / brightness, RGB_MODE);
+#endif
   return c;
 }
 

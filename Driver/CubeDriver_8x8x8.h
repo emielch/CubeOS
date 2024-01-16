@@ -12,11 +12,14 @@
 class CubeDriver_8x8x8 : public CubeDriver {
  public:
   CubeDriver_8x8x8() : CubeDriver(WIDTH, HEIGHT, DEPTH){};
+  byte setDitherBits(byte ditBits);
+  byte getDitherBits();
+  void setBrightness(double bri) { leds->ditherLUTCalc(bri); };
   void init();
 
   using CubeDriver::setPixel;
-  bool setPixel(int id, byte r, byte g, byte b, bool checkDiff = false);
-  bool setPixel(int id, int c, bool checkDiff = false);
+  void setPixel(int id, byte r, byte g, byte b);
+  void setPixel(int id, int c);
   Color getPixel(int id);
 
   bool busy();

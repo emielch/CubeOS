@@ -24,16 +24,39 @@ void CubeDriver_8x8x8::init() {
   }
 }
 
-void CubeDriver_8x8x8::setPixel(int id, byte r, byte g, byte b, bool checkDiff) {
-  if (id == -1) return false;
-  leds->setPixel(id, r, g, b);
-  return false;
+byte CubeDriver_8x8x8::setDitherBits(byte ditBits) {
+#if DITHER
+  return leds->setDitherBits(ditBits);
+#endif
+  return 0;
 }
 
-void CubeDriver_8x8x8::setPixel(int id, int c, bool checkDiff) {
-  if (id == -1) return false;
+byte CubeDriver_8x8x8::getDitherBits() {
+#if DITHER
+  return leds->getDitherBits();
+#endif
+  return 0;
+}
+
+void CubeDriver_8x8x8::setPixel(int id, byte r, byte g, byte b) {
+  if (id == -1) return;
+#if DITHER
+  leds->setPixel(id, r, g, b);
+#else
+  leds->setPixel(id, r * brightness, g * brightness, b * brightness);
+#endif
+}
+
+void CubeDriver_8x8x8::setPixel(int id, int c) {
+  if (id == -1) return;
+#if DITHER
   leds->setPixel(id, c);
-  return false;
+#else
+  byte b = c & 255;  // unpack the color
+  byte g = c >> 8 & 255;
+  byte r = c >> 16 & 255;
+  leds->setPixel(id, r * brightness, g * brightness, b * brightness);
+#endif
 }
 
 Color CubeDriver_8x8x8::getPixel(int id) {
@@ -43,7 +66,11 @@ Color CubeDriver_8x8x8::getPixel(int id) {
   byte b = conn & 255;                 // unpack the color
   byte g = conn >> 8 & 255;
   byte r = conn >> 16 & 255;
+#if DITHER
   Color c(r, g, b, RGB_MODE);
+#else
+  Color c(r / brightness, g / brightness, b / brightness, RGB_MODE);
+#endif
   return c;
 }
 

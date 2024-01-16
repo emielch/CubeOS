@@ -35,10 +35,6 @@ void SerialStreamManager::sendInfo() {
   Serial.printf("CUBE,%i,%i,%i,%i\r\n", getCubeID(), cube->width, cube->height, cube->depth);
 }
 
-void SerialStreamManager::sendDiff(bool diff) {
-  Serial.printf("DIFF,%i\r\n", diff);
-}
-
 void SerialStreamManager::update() {
   while (Serial.available()) {
     readSerial();
@@ -50,7 +46,6 @@ void SerialStreamManager::readSerial() {
 
   ///// IMAGE FRAME /////
   if (startChar == '%') {
-    bool isDiff = false;
     for (int z = 0; z < cube->depth; z++)
       for (int y = 0; y < cube->height; y++)
         for (int x = 0; x < cube->width; x++) {
@@ -60,14 +55,10 @@ void SerialStreamManager::readSerial() {
               return;
             }
           }
-          if (!isDiff)
-            isDiff = cube->setPixel(x, y, z, Serial.read(), Serial.read(), Serial.read(), true);
-          else
-            cube->setPixel(x, y, z, Serial.read(), Serial.read(), Serial.read());
+          cube->setPixel(x, y, z, Serial.read(), Serial.read(), Serial.read());
         }
     sinceNewFrame = 0;
     cube->update(false);
-    sendDiff(isDiff);
 
     ///// AUDIO BUFFER /////
   } else if (startChar == '$') {
@@ -109,6 +100,8 @@ void SerialStreamManager::readSerial() {
     demoManager.switchAnim(Orbs);
   } else if (startChar == 's') {
     demoManager.switchAnim(Sine);
+  } else if (startChar == 'c') {
+    demoManager.switchAnim(Specto);
   } else if (startChar == '=') {
     demoManager.incBri();
   } else if (startChar == '-') {

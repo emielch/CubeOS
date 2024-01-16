@@ -36,7 +36,7 @@ void SineManager::update() {
       int cy = ceil(y) + 1;
       for (int _y = fy; _y <= cy; _y++) {
         float bri = 1 - max(abs(y - _y) * 0.5, 0);
-        Color col = Color(hueOffset + y * hueScale, 100, demoManager.getBri() * bri, HSB_MODE);
+        Color col = Color(hueOffset + y * hueScale, 100, 100 * bri, HSB_MODE);
         cube->setPixel(x, _y, z, col);
       }
     }

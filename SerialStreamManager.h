@@ -16,7 +16,6 @@ class SerialStreamManager {
   void readSerial();
   elapsedMillis sinceNewFrame = 999999;
   void sendInfo();
-  void sendDiff(bool diff);
 };
 
 extern SerialStreamManager serialStreamManager;

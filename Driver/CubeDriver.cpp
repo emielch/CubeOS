@@ -6,20 +6,20 @@ void CubeDriver::update(bool reset) {
   calcDt();
 }
 
-bool CubeDriver::setPixel(byte x, byte y, byte z, byte r, byte g, byte b, bool checkDiff) {
-  return setPixel(getPixelLedId(x, y, z), r, g, b, checkDiff);
+void CubeDriver::setPixel(byte x, byte y, byte z, byte r, byte g, byte b) {
+  setPixel(getPixelLedId(x, y, z), r, g, b);
 }
 
-bool CubeDriver::setPixel(byte x, byte y, byte z, Color c, bool checkDiff) {
-  return setPixel(getPixelLedId(x, y, z), c, checkDiff);
+void CubeDriver::setPixel(byte x, byte y, byte z, Color c) {
+  setPixel(getPixelLedId(x, y, z), c);
 }
 
-bool CubeDriver::setPixel(byte x, byte y, byte z, int c, bool checkDiff) {
-  return setPixel(getPixelLedId(x, y, z), c, checkDiff);
+void CubeDriver::setPixel(byte x, byte y, byte z, int c) {
+  setPixel(getPixelLedId(x, y, z), c);
 }
 
-bool CubeDriver::setPixel(int id, Color c, bool checkDiff) {
-  return setPixel(id, c.red(), c.green(), c.blue(), checkDiff);
+void CubeDriver::setPixel(int id, Color c) {
+  setPixel(id, c.red(), c.green(), c.blue());
 }
 
 Color CubeDriver::getPixel(byte x, byte y, byte z) {

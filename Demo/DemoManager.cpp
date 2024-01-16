@@ -28,9 +28,10 @@ void DemoManager::init(void (*_renderInterrupt)()) {
   if (renderInterrupt == nullptr) renderInterrupt = emptyFunct;
   orbsManager.init(renderInterrupt);
   sineManager.init(renderInterrupt);
-  rainbowManager.init(renderInterrupt, brightness);
+  rainbowManager.init(renderInterrupt);
   currAnim = Orbs;
   enableDemo();
+  cube->setBrightness(brightness);
 }
 
 void DemoManager::update() {
@@ -64,10 +65,9 @@ void DemoManager::switchAnim(DemoAnim d) {
 }
 
 void DemoManager::adjBri(int v) {
-  if (currAnim == Rainbow) v *= 2;
-  brightness = constrain(brightness + v, 0, 100);
-  Serial.println(brightness);
-  rainbowManager.init(renderInterrupt, constrain(brightness, 0, 100));
+  brightness = constrain(brightness + v * 0.5, 0, 100);
+  cube->setBrightness(brightness);
+  Serial.println(brightness, 1);
 }
 
 void DemoManager::incBri() {
