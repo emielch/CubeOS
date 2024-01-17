@@ -101,6 +101,7 @@ void DemoManager::disableDemo() {
 void DemoManager::startDemo() {
   demoRunning = true;
   orbsManager.init(renderInterrupt);
+  cube->setBrightness(brightness);
 }
 void DemoManager::stopDemo() {
   demoRunning = false;

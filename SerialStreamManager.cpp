@@ -81,6 +81,19 @@ void SerialStreamManager::readSerial() {
       audioManager.playBuffer();
     }
 
+    ///// BRIGHTNESS /////
+  } else if (startChar == 'b') {
+    elapsedMillis sinceWait = 0;
+    while (Serial.available() < 5) {
+      if (sinceWait > 10) {
+        Serial.println("not received the expected amount bri chars");
+        Serial.clear();
+        return;
+      }
+    }
+    float bri = Serial.readString(5).toFloat();
+    cube->setBrightness(bri);
+
     ///// DEVICE INFO /////
   } else if (startChar == '?') {
     // when the video application asks, give it all our info
