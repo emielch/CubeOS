@@ -15,8 +15,9 @@ AudioAmplifier           amp2;           //xy=770.2000122070312,452.000015258789
 #if ESP_AUDIO
 AudioInputI2Sslave       i2s_in;         //xy=771.2000122070312,514.0000152587891
 AudioOutputI2Sslave      i2s1;           //xy=1432.2000122070312,516.0000152587891
+AudioConnection          patchCord4(i2s_in, 0, mixer1, 1);
+AudioConnection          patchCord5(i2s_in, 1, mixer2, 1);
 #else
-AudioInputI2S            i2s_in;         //xy=771.2000122070312,514.0000152587891
 AudioOutputI2S           i2s1;           //xy=1432.2000122070312,516.0000152587891
 #endif
 AudioAmplifier           amp1;           //xy=772.2000122070312,410.00001525878906
@@ -30,8 +31,6 @@ AudioAnalyzeFFT1024      fft1024;        //xy=1450.2000122070312,624.00001525878
 AudioConnection          patchCord1(usb1, 0, amp1, 0);
 AudioConnection          patchCord2(usb1, 1, amp2, 0);
 AudioConnection          patchCord3(amp2, 0, mixer2, 0);
-AudioConnection          patchCord4(i2s_in, 0, mixer1, 1);
-AudioConnection          patchCord5(i2s_in, 1, mixer2, 1);
 AudioConnection          patchCord6(amp1, 0, mixer1, 0);
 AudioConnection          patchCord7(queue1, 0, mixer1, 2);
 AudioConnection          patchCord8(queue1, 0, mixer2, 2);
