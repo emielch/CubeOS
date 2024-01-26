@@ -99,7 +99,9 @@ void SerialStreamManager::readSerial() {
     // when the video application asks, give it all our info
     // for easy and automatic configuration
     sendInfo();
-  } else if (startChar == 'f') {
+  }
+#ifdef SERIALCONTROL
+  else if (startChar == 'f') {
     Serial.printf("FPS: %.2f\r\n", cube->getFPS());
   } else if (startChar == 'p') {
     demoManager.togglePaused();
@@ -127,7 +129,9 @@ void SerialStreamManager::readSerial() {
     Serial.println(cube->setDitherBits(cube->getDitherBits() - 1));
   } else if (startChar == '2') {
     Serial.println(cube->setDitherBits(cube->getDitherBits() + 1));
-  } else if (startChar >= 0) {
+  }
+#endif
+  else if (startChar >= 0) {
     // discard unknown characters
   }
 }
