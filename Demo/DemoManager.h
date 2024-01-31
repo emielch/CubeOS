@@ -20,17 +20,14 @@ class DemoManager {
   void adjBri(int v);
   static void incBri();
   static void decBri();
+  void setBri(double bri, bool demo);
   static void nextDemo();
   static void prevDemo();
   void togglePaused() { paused = !paused; }
   bool getDemoRunning() { return demoRunning; }
 
  private:
-#if DITHER
-  double brightness = 50;
-#else
-  double brightness = 15;
-#endif
+  double demoBri, streamBri;
   DemoAnim currAnim;
   void startDemo();
   void stopDemo();

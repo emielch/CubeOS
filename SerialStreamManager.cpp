@@ -82,7 +82,7 @@ void SerialStreamManager::readSerial() {
     }
 
     ///// BRIGHTNESS /////
-  } else if (startChar == 'b') {
+  } else if (startChar == 'b' || startChar == 'B') {
     elapsedMillis sinceWait = 0;
     while (Serial.available() < 5) {
       if (sinceWait > 10) {
@@ -92,7 +92,7 @@ void SerialStreamManager::readSerial() {
       }
     }
     float bri = Serial.readString(5).toFloat();
-    cube->setBrightness(bri);
+    demoManager.setBri(bri, startChar == 'B');
 
     ///// DEVICE INFO /////
   } else if (startChar == '?') {

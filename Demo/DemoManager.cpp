@@ -23,6 +23,13 @@ void exciteRandomizer() {
 }
 
 void DemoManager::init(void (*_renderInterrupt)()) {
+#if DITHER
+  demoBri = 50;
+  streamBri = 50;
+#else
+  demoBri = 15;
+  streamBri = 15;
+#endif
   exciteRandomizer();
   renderInterrupt = _renderInterrupt;
   if (renderInterrupt == nullptr) renderInterrupt = emptyFunct;
@@ -31,7 +38,6 @@ void DemoManager::init(void (*_renderInterrupt)()) {
   rainbowManager.init(renderInterrupt);
   currAnim = Orbs;
   enableDemo();
-  cube->setBrightness(brightness);
 }
 
 void DemoManager::update() {
@@ -65,9 +71,10 @@ void DemoManager::switchAnim(DemoAnim d) {
 }
 
 void DemoManager::adjBri(int v) {
-  brightness = constrain(brightness + v * 0.5, 0, 100);
-  cube->setBrightness(brightness);
-  Serial.println(brightness, 1);
+  double* briPntr = demoRunning ? &demoBri : &streamBri;
+  *briPntr = constrain(*briPntr + v * 0.5, 0, 100);
+  cube->setBrightness(*briPntr);
+  Serial.println(*briPntr, 1);
 }
 
 void DemoManager::incBri() {
@@ -75,6 +82,12 @@ void DemoManager::incBri() {
 }
 void DemoManager::decBri() {
   demoManager.adjBri(-1);
+}
+
+void DemoManager::setBri(double bri, bool demo) {
+  double* briPntr = demo ? &demoBri : &streamBri;
+  *briPntr = constrain(bri, 0, 100);
+  if (demo == demoRunning) cube->setBrightness(*briPntr);
 }
 
 void DemoManager::nextDemo() {
@@ -101,10 +114,11 @@ void DemoManager::disableDemo() {
 void DemoManager::startDemo() {
   demoRunning = true;
   orbsManager.init(renderInterrupt);
-  cube->setBrightness(brightness);
+  cube->setBrightness(demoBri);
 }
 void DemoManager::stopDemo() {
   demoRunning = false;
+  cube->setBrightness(streamBri);
 }
 
 DemoManager demoManager;
