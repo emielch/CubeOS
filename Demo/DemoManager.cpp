@@ -72,7 +72,7 @@ void DemoManager::switchAnim(DemoAnim d) {
 
 void DemoManager::adjBri(int v) {
   double* briPntr = demoRunning ? &demoBri : &streamBri;
-  *briPntr = constrain(*briPntr + v * 0.5, 0, 100);
+  *briPntr = constrain(*briPntr + v * 0.5, 0, 400);
   cube->setBrightness(*briPntr);
   Serial.println(*briPntr, 1);
 }
@@ -86,7 +86,7 @@ void DemoManager::decBri() {
 
 void DemoManager::setBri(double bri, bool demo) {
   double* briPntr = demo ? &demoBri : &streamBri;
-  *briPntr = constrain(bri, 0, 100);
+  *briPntr = constrain(bri, 0, 400);
   if (demo == demoRunning) cube->setBrightness(*briPntr);
 }
 
