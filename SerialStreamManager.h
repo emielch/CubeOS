@@ -15,6 +15,8 @@ class SerialStreamManager {
  private:
   void readSerial();
   elapsedMillis sinceNewFrame = 999999;
+  unsigned long unknownCount = 0;
+  elapsedMillis sinceUnknownChar = 999999;
   void sendInfo();
 };
 

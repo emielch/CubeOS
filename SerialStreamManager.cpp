@@ -39,6 +39,10 @@ void SerialStreamManager::update() {
   while (Serial.available()) {
     readSerial();
   }
+  if (unknownCount > 0 && sinceUnknownChar > 100) {
+    Serial.printf("Received %i unkown chars\r\n", unknownCount);
+    unknownCount = 0;
+  }
 }
 
 void SerialStreamManager::readSerial() {
@@ -132,7 +136,9 @@ void SerialStreamManager::readSerial() {
   }
 #endif
   else if (startChar >= 0) {
-    // discard unknown characters
+    // count and discard unknown characters
+    unknownCount++;
+    sinceUnknownChar = 0;
   }
 }
 
