@@ -6,6 +6,11 @@
 #include "Demo\DemoManager.h"
 #include "Driver\CubeDriver.h"
 
+// reboot is the same for all ARM devices
+#define CPU_RESTART_ADDR ((uint32_t*)0xE000ED0C)
+#define CPU_RESTART_VAL (0x5FA0004)
+#define REBOOT (*CPU_RESTART_ADDR = CPU_RESTART_VAL)
+
 extern CubeDriver* cube;
 
 void SerialStreamManager::init() {
@@ -36,13 +41,28 @@ void SerialStreamManager::sendInfo() {
 }
 
 void SerialStreamManager::update() {
-  while (Serial.available()) {
+  while (Serial.available() > 0) {
     readSerial();
   }
   if (unknownCount > 0 && sinceUnknownChar > 100) {
     Serial.printf("Received %i unkown chars\r\n", unknownCount);
     unknownCount = 0;
   }
+  if (Serial.available() < 0) {
+    Serial.println("Serial.available() negative; REBOOTING");
+    delay(500);
+    REBOOT;
+  }
+}
+
+bool SerialStreamManager::waitForData(int bytes, unsigned long time) {
+  elapsedMillis sinceWait = 0;
+  while (Serial.available() < bytes) {
+    if (sinceWait > time) {
+      return false;
+    }
+  }
+  return true;
 }
 
 void SerialStreamManager::readSerial() {
@@ -53,11 +73,10 @@ void SerialStreamManager::readSerial() {
     for (int z = 0; z < cube->depth; z++)
       for (int y = 0; y < cube->height; y++)
         for (int x = 0; x < cube->width; x++) {
-          elapsedMillis sinceWait = 0;
-          while (Serial.available() < 3) {
-            if (sinceWait > 1000) {
-              return;
-            }
+          if (!waitForData(3, 100)) {
+            Serial.clear();
+            Serial.println("not received the expected amount of image samples");
+            return;
           }
           cube->setPixel(x, y, z, Serial.read(), Serial.read(), Serial.read());
         }
@@ -66,24 +85,26 @@ void SerialStreamManager::readSerial() {
 
     ///// AUDIO BUFFER /////
   } else if (startChar == '$') {
-    elapsedMillis sinceWait = 0;
-    while (Serial.available() < AUDIO_BLOCK_SAMPLES * 2) {
-      if (sinceWait > 10) {
-        Serial.println("not received the expected amount of audio samples");
+    int8_t* buf = (int8_t*)audioManager.getBuffer();
+
+    for (int i = 0; i < AUDIO_BLOCK_SAMPLES * 2; i += 2) {
+      if (!waitForData(2, 100)) {
         Serial.clear();
+        Serial.println("not received the expected amount of audio samples");
         return;
       }
-    }
-
-    int16_t* buf = audioManager.getBuffer();
-    if (buf == NULL) {
-      for (int i = 0; i < AUDIO_BLOCK_SAMPLES * 2; i++)
+      if (buf == NULL) {
         Serial.read();
-      Serial.println("Skipped block");
-    } else {
-      Serial.readBytes((char*)buf, AUDIO_BLOCK_SAMPLES * 2);
-      audioManager.playBuffer();
+        Serial.read();
+      } else {
+        buf[i] = Serial.read();
+        buf[i + 1] = Serial.read();
+      }
     }
+    if (buf != NULL)
+      audioManager.playBuffer();
+    else
+      Serial.println("Skipped block");
 
     ///// BRIGHTNESS /////
   } else if (startChar == 'b' || startChar == 'B') {
@@ -105,7 +126,11 @@ void SerialStreamManager::readSerial() {
     sendInfo();
   }
 #ifdef SERIALCONTROL
-  else if (startChar == 'f') {
+  else if (startChar == '!') {
+    Serial.println("REBOOTING");
+    delay(500);
+    REBOOT;
+  } else if (startChar == 'f') {
     Serial.printf("FPS: %.2f\r\n", cube->getFPS());
   } else if (startChar == 'p') {
     demoManager.togglePaused();

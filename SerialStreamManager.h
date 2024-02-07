@@ -14,6 +14,7 @@ class SerialStreamManager {
 
  private:
   void readSerial();
+  bool waitForData(int bytes, unsigned long time);
   elapsedMillis sinceNewFrame = 999999;
   unsigned long unknownCount = 0;
   elapsedMillis sinceUnknownChar = 999999;
