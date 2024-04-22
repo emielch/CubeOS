@@ -12,6 +12,10 @@
 // GUItool: begin automatically generated code
 AudioInputUSB            usb1;           //xy=589.2000122070312,431.00001525878906
 AudioAmplifier           amp2;           //xy=770.2000122070312,452.00001525878906
+AudioAmplifier           amp1;           //xy=772.2000122070312,410.00001525878906
+OKAudioPlayQueue         queue1;         //xy=780.2000122070312,610.0000152587891
+AudioMixer4              mixer1;         //xy=1061.2000122070312,404.00001525878906
+AudioMixer4              mixer2;         //xy=1063.2000122070312,561.0000152587891
 #if ESP_AUDIO
 AudioInputI2Sslave       i2s_in;         //xy=771.2000122070312,514.0000152587891
 AudioOutputI2Sslave      i2s1;           //xy=1432.2000122070312,516.0000152587891
@@ -20,10 +24,6 @@ AudioConnection          patchCord5(i2s_in, 1, mixer2, 1);
 #else
 AudioOutputI2S           i2s1;           //xy=1432.2000122070312,516.0000152587891
 #endif
-AudioAmplifier           amp1;           //xy=772.2000122070312,410.00001525878906
-OKAudioPlayQueue         queue1;         //xy=780.2000122070312,610.0000152587891
-AudioMixer4              mixer1;         //xy=1061.2000122070312,404.00001525878906
-AudioMixer4              mixer2;         //xy=1063.2000122070312,561.0000152587891
 AudioFilterBiquad        biquad_L;       //xy=1268.2000122070312,472.00001525878906
 AudioFilterBiquad        biquad_R;       //xy=1271.2000122070312,525.0000152587891
 AudioMixer4              mixer_fft;      //xy=1290.2000122070312,613.0000152587891
@@ -57,8 +57,8 @@ void AudioManager::init() {
 
   queue1.setBehaviour(OKAudioPlayQueue::NON_STALLING);
 
-  biquad_L.setLowShelf(0, 350, 15, 1);
-  biquad_R.setLowShelf(0, 350, 15, 1);
+  biquad_L.setLowShelf(0, 350, 20, 1);
+  biquad_R.setLowShelf(0, 350, 20, 1);
   mixer_fft.gain(0, 0.5);
   mixer_fft.gain(1, 0.5);
 }
