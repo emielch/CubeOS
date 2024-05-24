@@ -40,7 +40,6 @@ class CubeDriver_OK16 : public CubeDriver {
   int displayMemory[LEDS_PER_CHANNEL * numPins * 3 / 4];  // * 3 for three bytes per LED, / 4 for 4 bytes in an int
   int drawingMemory[LEDS_PER_CHANNEL * numPins * 3 / 4];
 #if DITHER
-  int writingMemory[LEDS_PER_CHANNEL * numPins * 3 / 4];
   OctoWS2811_Dither *leds;
 #else
   OctoWS2811 *leds;
