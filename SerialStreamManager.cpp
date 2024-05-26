@@ -155,7 +155,7 @@ void SerialStreamManager::readSerial() {
   } else if (startChar == ']') {
     increaseCubeID();
   } else if (startChar == '1') {
-    Serial.println(cube->setDitherBits(cube->getDitherBits() - 1));
+    Serial.println(cube->setDitherBits(max(cube->getDitherBits() - 1, 0)));
   } else if (startChar == '2') {
     Serial.println(cube->setDitherBits(cube->getDitherBits() + 1));
   }
