@@ -14,9 +14,7 @@ class CubeDriver_Q25 : public CubeDriver {
   CubeDriver_Q25() : CubeDriver(CUBEWIDTH, CUBHEIGHT, CUBDEPTH){};
   byte setDitherBits(byte ditBits);
   byte getDitherBits();
-#if DITHER
   void setBrightness(double bri) { leds->setBrightness(bri); };
-#endif
   void init();
 
   using CubeDriver::setPixel;

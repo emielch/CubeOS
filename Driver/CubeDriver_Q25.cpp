@@ -47,11 +47,7 @@ Color CubeDriver_Q25::getPixel(int id) {
   byte b = conn & 255;                 // unpack the color
   byte g = conn >> 8 & 255;
   byte r = conn >> 16 & 255;
-#if DITHER
   Color c(r, g, b, RGB_MODE);
-#else
-  Color c(r / brightness, g / brightness, b / brightness, RGB_MODE);
-#endif
   return c;
 }
 
