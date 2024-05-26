@@ -11,6 +11,7 @@ void SpectoManager::init(void (*_renderInterrupt)()) {
 }
 
 void SpectoManager::update() {
+#ifdef USB_MIDI_AUDIO_SERIAL
   if (audioManager.newData)
     for (int i = 0; i < 16; i++) {
       peaks[lastPeaksID][i] = audioManager.peaks[i];
@@ -25,7 +26,7 @@ void SpectoManager::update() {
       int height = level * 50 * cube->height;
       for (int y = 0; y <= cube->height; y++) {
         float bri = y < height ? 100 : 0;
-        Color col = Color(y*15+z*5, 100-z*4+20, max(bri-z*1.5,0), HSB_MODE);
+        Color col = Color(y * 15 + z * 5, 100 - z * 4 + 20, max(bri - z * 1.5, 0), HSB_MODE);
         cube->setPixel(x, y, z, col);
       }
     }
@@ -35,6 +36,7 @@ void SpectoManager::update() {
     if (lastPeaksID > 15) lastPeaksID = 0;
   }
   audioManager.newData = false;
+#endif
 }
 
 SpectoManager spectoManager;

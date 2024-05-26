@@ -1,3 +1,4 @@
+#ifdef USB_MIDI_AUDIO_SERIAL
 #include "AudioManager.h"
 
 #include "ok_play_queue.h"
@@ -113,3 +114,4 @@ void AudioManager::fftUpdate() {
 }
 
 AudioManager audioManager;
+#endif

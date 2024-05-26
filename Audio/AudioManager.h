@@ -1,3 +1,4 @@
+#ifdef USB_MIDI_AUDIO_SERIAL
 #include <Arduino.h>
 
 class AudioManager {
@@ -18,3 +19,4 @@ class AudioManager {
 };
 
 extern AudioManager audioManager;
+#endif

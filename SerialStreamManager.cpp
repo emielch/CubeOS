@@ -82,9 +82,10 @@ void SerialStreamManager::readSerial() {
         }
     sinceNewFrame = 0;
     cube->update(false);
-
-    ///// AUDIO BUFFER /////
-  } else if (startChar == '$') {
+  }
+#ifdef USB_MIDI_AUDIO_SERIAL
+  ///// AUDIO BUFFER /////
+  else if (startChar == '$') {
     int8_t* buf = (int8_t*)audioManager.getBuffer();
 
     for (int i = 0; i < AUDIO_BLOCK_SAMPLES * 2; i += 2) {
@@ -105,9 +106,10 @@ void SerialStreamManager::readSerial() {
       audioManager.playBuffer();
     else
       Serial.println("Skipped block");
-
-    ///// BRIGHTNESS /////
-  } else if (startChar == 'b' || startChar == 'B') {
+  }
+#endif
+  ///// BRIGHTNESS /////
+  else if (startChar == 'b' || startChar == 'B') {
     elapsedMillis sinceWait = 0;
     while (Serial.available() < 5) {
       if (sinceWait > 10) {
