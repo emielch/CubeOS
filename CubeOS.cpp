@@ -1,12 +1,5 @@
 #include "CubeOS.h"
 
-#ifdef USB_MIDI_AUDIO_SERIAL
-#include "Audio\AudioManager.h"
-#endif
-#include "Demo\DemoManager.h"
-#include "Driver.h"
-#include "SerialStreamManager.h"
-
 void CubeOS::init() {
   cube->init();
   serialStreamManager.init();
