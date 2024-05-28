@@ -6,7 +6,7 @@ void CubeDriver_Q25::init() {
   bufsize = LEDS_PER_CHANNEL * numPins * 16 * 3;
   const int config = WS2811_GRB | WS2811_800kHz;
   byte pinList[numPins] = {6, 7, 8, 9, 34, 35, 36, 37};
-  leds = new ShiftWS2811(LEDS_PER_CHANNEL, displayMemory, drawingMemory, config, numPins, pinList);
+  leds = new ShiftWS2811(LEDS_PER_CHANNEL, frontMemory, backMemory, drawMemory, config, numPins, pinList);
   leds->begin();
 
   for (int z = 0; z < depth; z++) {
@@ -60,7 +60,7 @@ void CubeDriver_Q25::show() {
 }
 
 void CubeDriver_Q25::resetLEDs() {
-  memset(drawingMemory, 0, bufsize);
+  memset(drawMemory, 0, bufsize);
 }
 
 int CubeDriver_Q25::getPixelLedId(byte x, byte y, byte z) {

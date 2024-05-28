@@ -31,8 +31,9 @@ class CubeDriver_Q25 : public CubeDriver {
 
   static const int numPins = 8;
   static const int LEDS_PER_CHANNEL = 125;
-  int displayMemory[LEDS_PER_CHANNEL * numPins * 16 * 3 / 4];  // *16 for 16 pins on a shiftregister
-  int drawingMemory[LEDS_PER_CHANNEL * numPins * 16 * 3 / 4];
+  int frontMemory[LEDS_PER_CHANNEL * numPins * 16 * 3 / 4];  // *16 for 16 pins on a shiftregister
+  int backMemory[LEDS_PER_CHANNEL * numPins * 16 * 3 / 4];
+  int drawMemory[LEDS_PER_CHANNEL * numPins * 16 * 3 / 4];
 
   ShiftWS2811 *leds;
 
