@@ -15,6 +15,7 @@ void CubeOS::update() {
   audioManager.update();
 #endif
   demoManager.update();
+  timeManager.update();
 }
 
 CubeOS cubeOS;

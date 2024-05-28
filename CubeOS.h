@@ -3,11 +3,12 @@
 #include <Arduino.h>
 
 #ifdef USB_MIDI_AUDIO_SERIAL
-#include "Audio\AudioManager.h"
+#include "Audio/AudioManager.h"
 #endif
-#include "Demo\DemoManager.h"
+#include "Demo/DemoManager.h"
 #include "Driver.h"
 #include "SerialStreamManager.h"
+#include "Time/TimeManager.h"
 
 class CubeOS {
  public:

@@ -2,9 +2,10 @@
 
 #include <EEPROM.h>
 
-#include "Audio\AudioManager.h"
-#include "Demo\DemoManager.h"
-#include "Driver\CubeDriver.h"
+#include "Audio/AudioManager.h"
+#include "Demo/DemoManager.h"
+#include "Driver/CubeDriver.h"
+#include "Time/TimeManager.h"
 
 // reboot is the same for all ARM devices
 #define CPU_RESTART_ADDR ((uint32_t*)0xE000ED0C)
@@ -134,6 +135,7 @@ void SerialStreamManager::readSerial() {
     REBOOT;
   } else if (startChar == 'f') {
     Serial.printf("FPS: %.2f\r\n", cube->getFPS());
+    timeManager.printCurrTime();
   } else if (startChar == 'p') {
     demoManager.togglePaused();
   } else if (startChar == 'd') {
