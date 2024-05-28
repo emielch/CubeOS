@@ -105,11 +105,11 @@ void DemoManager::prevDemo() {
 }
 
 void DemoManager::enableDemo() {
-  demoEnabled = true;
+  demoManager.demoEnabled = true;
 }
 void DemoManager::disableDemo() {
-  demoEnabled = false;
-  stopDemo();
+  demoManager.demoEnabled = false;
+  demoManager.stopDemo();
 }
 void DemoManager::startDemo() {
   demoRunning = true;

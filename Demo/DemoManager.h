@@ -14,8 +14,8 @@ class DemoManager {
  public:
   void init(void (*_renderInterrupt)() = nullptr);
   void update();
-  void enableDemo();
-  void disableDemo();
+  static void enableDemo();
+  static void disableDemo();
   void switchAnim(DemoAnim d);
   void adjBri(int v);
   static void incBri();
