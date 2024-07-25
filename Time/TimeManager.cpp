@@ -10,7 +10,7 @@ void TimeManager::update() {
   sinceAlarmCheck = 0;
 
   int weekday = getWeekDay(now());
-  if (weekday == 6 || weekday == 0) {  // if it's saturday or sunday
+  if (!dayOn[weekday]) {  // if it's set to be off today
     demoManager.disableDemo();
     return;
   }
@@ -34,6 +34,11 @@ unsigned long TimeManager::now() {
 }
 void TimeManager::setTime(unsigned long t) {
   Teensy3Clock.set(t);
+}
+
+void TimeManager::setOnDay(int day, bool on) {
+  if (day < 0 || day > 6) return;
+  dayOn[day] = on;
 }
 
 void TimeManager::printCurrTime() {
