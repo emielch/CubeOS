@@ -10,12 +10,12 @@
 #endif
 
 #define CUBEWIDTH 16
-#define CUBHEIGHT 16
-#define CUBDEPTH 16
+#define CUBEHEIGHT 16
+#define CUBEDEPTH 16
 
 class CubeDriver_OK16 : public CubeDriver {
  public:
-  CubeDriver_OK16() : CubeDriver(CUBEWIDTH, CUBHEIGHT, CUBDEPTH){};
+  CubeDriver_OK16() : CubeDriver(CUBEWIDTH, CUBEHEIGHT, CUBEDEPTH){};
   byte setDitherBits(byte ditBits);
   byte getDitherBits();
 #if DITHER
@@ -46,7 +46,7 @@ class CubeDriver_OK16 : public CubeDriver {
 #endif
 
   uint32_t bufsize;
-  int posLUT[CUBEWIDTH][CUBHEIGHT][CUBDEPTH];
+  int posLUT[CUBEWIDTH][CUBEHEIGHT][CUBEDEPTH];
 };
 
 #endif

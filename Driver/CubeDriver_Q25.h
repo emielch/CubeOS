@@ -6,12 +6,12 @@
 #include "CubeDriver.h"
 
 #define CUBEWIDTH 25
-#define CUBHEIGHT 25
-#define CUBDEPTH 25
+#define CUBEHEIGHT 25
+#define CUBEDEPTH 25
 
 class CubeDriver_Q25 : public CubeDriver {
  public:
-  CubeDriver_Q25() : CubeDriver(CUBEWIDTH, CUBHEIGHT, CUBDEPTH){};
+  CubeDriver_Q25() : CubeDriver(CUBEWIDTH, CUBEHEIGHT, CUBEDEPTH){};
   byte setDitherBits(byte ditBits);
   byte getDitherBits();
   void setBrightness(double bri) { leds->setBrightness(bri); };
@@ -38,7 +38,7 @@ class CubeDriver_Q25 : public CubeDriver {
   ShiftWS2811 *leds;
 
   uint32_t bufsize;
-  int posLUT[CUBEWIDTH][CUBHEIGHT][CUBDEPTH];
+  int posLUT[CUBEWIDTH][CUBEHEIGHT][CUBEDEPTH];
 };
 
 #endif
