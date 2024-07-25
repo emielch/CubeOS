@@ -11,7 +11,7 @@ void CubeDriver_OK16::init() {
   byte pinList[numPins] = {33, 32, 34, 31, 35, 30, 36, 29, 37, 25, 38, 26, 39, 27, 40, 28, 41, 10, 13, 9, 14, 8, 15, 6, 16, 5, 17, 4, 18, 3, 19, 2};
 #endif
 #if DITHER
-  leds = new OctoWS2811_Dither(LEDS_PER_CHANNEL, displayMemory, drawingMemory, config, 2, numPins, pinList);
+  leds = new OctoWS2811_Dither(LEDS_PER_CHANNEL, displayMemory, drawingMemory, config, 2, numPins, pinList, 0.95e-6);
 #else
   leds = new OctoWS2811(LEDS_PER_CHANNEL, displayMemory, drawingMemory, config, numPins, pinList);
 #endif
