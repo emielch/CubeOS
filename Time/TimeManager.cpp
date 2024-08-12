@@ -16,16 +16,21 @@ void TimeManager::update() {
   }
 
   unsigned long currT = now() % (60 * 60 * 24);
-  if (onTime < offTime) {
-    if (currT > onTime && currT < offTime)
-      demoManager.enableDemo();
-    else
-      demoManager.disableDemo();
-  } else {
-    if (currT > offTime && currT < onTime)
-      demoManager.disableDemo();
-    else
-      demoManager.enableDemo();
+  if (onTime < offTime)
+    setOnOff(currT > onTime && currT < offTime);
+  else
+    setOnOff(!(currT > offTime && currT < onTime));
+}
+
+void TimeManager::setOnOff(bool val) {
+  if (val && demoManager.getDemoEnabled()) {
+    forcingOn = false;
+  } else if (val && !demoManager.getDemoEnabled() && !forcingOff) {
+    demoManager.enableDemo();
+  } else if (!val && !demoManager.getDemoEnabled()) {
+    forcingOff = false;
+  } else if (!val && demoManager.getDemoEnabled() && !forcingOn) {
+    demoManager.disableDemo();
   }
 }
 

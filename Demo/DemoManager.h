@@ -25,6 +25,7 @@ class DemoManager {
   static void prevDemo();
   void togglePaused() { paused = !paused; }
   bool getDemoRunning() { return demoRunning; }
+  bool getDemoEnabled() { return demoEnabled; }
 
  private:
   double demoBri, streamBri;

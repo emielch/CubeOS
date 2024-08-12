@@ -140,8 +140,10 @@ void SerialStreamManager::readSerial() {
     demoManager.togglePaused();
   } else if (startChar == 'd') {
     demoManager.enableDemo();
+    timeManager.forceOn();
   } else if (startChar == 'x') {
     demoManager.disableDemo();
+    timeManager.forceOff();
   } else if (startChar == 'r') {
     demoManager.switchAnim(Rainbow);
   } else if (startChar == 'o') {
