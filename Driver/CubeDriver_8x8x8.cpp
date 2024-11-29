@@ -87,16 +87,16 @@ void CubeDriver::setPixel(int id, int c) {
 }
 
 Color CubeDriver::getPixel(int id) {
-  if (id == -1) return Color(0, 0, 0, RGB_MODE);
+  if (id == -1) return Color(0, 0, 0, RGB);
 
   uint32_t conn = leds->getPixel(id);  // retrieve the color that has already been saved
   byte b = conn & 255;                 // unpack the color
   byte g = conn >> 8 & 255;
   byte r = conn >> 16 & 255;
 #if DITHER
-  Color c(r, g, b, RGB_MODE);
+  Color c(r, g, b, RGB);
 #else
-  Color c(r / brightness, g / brightness, b / brightness, RGB_MODE);
+  Color c(r / brightness, g / brightness, b / brightness, RGB);
 #endif
   return c;
 }

@@ -1,10 +1,5 @@
 #include "Orb.h"
 
-#include "CubeOS\Demo\DemoManager.h"
-#include "CubeOS\Driver\CubeDriver.h"
-
-extern CubeDriver* cube;
-
 void Orb::init(float _size, float _spd, float _hue) {
   reset(-1, -1, -1);
 

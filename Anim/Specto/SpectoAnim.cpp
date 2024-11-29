@@ -1,16 +1,11 @@
-#include "SpectoManager.h"
+#include "SpectoAnim.h"
 
-#include "CubeOS\Audio\AudioManager.h"
-#include "CubeOS\Demo\DemoManager.h"
-#include "CubeOS\CubeOS.h"
+#include "..\..\Audio\AudioManager.h"
 
-extern CubeDriver* cube;
-
-void SpectoManager::init(void (*_renderInterrupt)()) {
-  renderInterrupt = _renderInterrupt;
+void SpectoAnim::_init() {
 }
 
-void SpectoManager::update() {
+void SpectoAnim::_update() {
 #ifdef USB_MIDI_AUDIO_SERIAL
   if (audioManager.newData)
     for (int i = 0; i < 16; i++) {
@@ -26,7 +21,7 @@ void SpectoManager::update() {
       int height = level * 50 * CUBEHEIGHT;
       for (int y = 0; y <= CUBEHEIGHT; y++) {
         float bri = y < height ? 100 : 0;
-        Color col = Color(y * 15 + z * 5, 100 - z * 4 + 20, max(bri - z * 1.5, 0), HSB_MODE);
+        Color col = Color(y * 15 + z * 5, 100 - z * 4 + 20, max(bri - z * 1.5, 0), HSB);
         cube->setPixel(x, y, z, col);
       }
     }
@@ -38,5 +33,3 @@ void SpectoManager::update() {
   audioManager.newData = false;
 #endif
 }
-
-SpectoManager spectoManager;

@@ -2,18 +2,20 @@
 
 #include "Arduino.h"
 
-#define RGB_MODE 0
-#define HSB_MODE 1
+enum ColorMode {
+  RGB,
+  HSB
+};
 
 // ---- color stuff ----
 
-struct RGB {
+struct RGBCol {
   byte r;  // 255
   byte g;  // 255
   byte b;  // 255
 };
 
-struct HSB {
+struct HSBCol {
   int h;   // 360
   byte s;  // 100
   byte b;  // 100
@@ -22,7 +24,7 @@ struct HSB {
 class Color {
  public:
   Color();
-  Color(int v1, byte v2, byte v3, byte mode);
+  Color(int v1, byte v2, byte v3, ColorMode mode = RGB);
 
   void setRGB(byte r, byte g, byte b);
   void setHSB(unsigned int h, byte s, byte b);
@@ -31,8 +33,8 @@ class Color {
   byte green();
   byte blue();
   int hue();
-  byte saturation();
-  byte brightness();
+  byte sat();
+  byte bri();
 
   void add(Color toAdd, float fadeFac);
   void add(Color toAdd);
@@ -44,13 +46,13 @@ class Color {
   void fade(Color c1, Color c2, float fadeFac);
 
  private:
-  RGB RGB_color;
-  HSB HSB_color;
-  boolean RGB_updated;
-  boolean HSB_updated;
+  RGBCol RGB_color;
+  HSBCol HSB_color;
+  bool RGB_updated;
+  bool HSB_updated;
 
-  HSB RGBtoHSB(RGB *color);
-  RGB HSBtoRGB(HSB *color);
+  HSBCol RGBtoHSB(RGBCol *color);
+  RGBCol HSBtoRGB(HSBCol *color);
 
   void updateHSB();
   void updateRGB();

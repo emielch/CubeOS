@@ -1,12 +1,10 @@
-#include "RainbowManager.h"
+#include "RainbowAnim.h"
 
-#include "CubeOS\CubeOS.h"
 #include "makeColor.h"
 
 extern CubeDriver* cube;
 
-void RainbowManager::init(void (*_renderInterrupt)()) {
-  renderInterrupt = _renderInterrupt;
+void RainbowAnim::_init() {
   for (int i = 0; i < 180; i++) {
     int hue = i * 2;
     int saturation = 100;
@@ -16,15 +14,15 @@ void RainbowManager::init(void (*_renderInterrupt)()) {
   }
 }
 
-void RainbowManager::update() {
-  for (byte z = 0; z < CUBEDEPTH; z++)
+void RainbowAnim::_update() {
+  for (byte z = 0; z < CUBEDEPTH; z++) {
+    cubeOS.renderInterrupt();
     for (byte y = 0; y < CUBEHEIGHT; y++)
       for (byte x = 0; x < CUBEWIDTH; x++) {
         int index = ((int)currColorId + x * 10 + y * 5 + z * 3) % 180;
         cube->setPixel(x, y, z, rainbowColors[index]);
       }
+  }
   currColorId += cube->getDt() * 30;
   if (currColorId >= 180) currColorId = 0;
 }
-
-RainbowManager rainbowManager;

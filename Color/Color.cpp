@@ -7,12 +7,10 @@ Color::Color() {
   HSB_updated = false;
 }
 
-Color::Color(int v1, byte v2, byte v3, byte mode) {
-  if (mode == HSB_MODE) {
-    setHSB(v1, v2, v3);
-    return;
-  }
-  setRGB(v1, v2, v3);
+Color::Color(int v1, byte v2, byte v3, ColorMode mode) {
+  if (mode == HSB) setHSB(v1, v2, v3);
+  else
+    setRGB(v1, v2, v3);
 }
 
 void Color::setRGB(byte r, byte g, byte b) {
@@ -42,44 +40,32 @@ void Color::updateHSB() {
 }
 
 byte Color::red() {
-  if (!RGB_updated) {
-    updateRGB();
-  }
+  if (!RGB_updated) updateRGB();
   return RGB_color.r;
 }
 
 byte Color::green() {
-  if (!RGB_updated) {
-    updateRGB();
-  }
+  if (!RGB_updated) updateRGB();
   return RGB_color.g;
 }
 
 byte Color::blue() {
-  if (!RGB_updated) {
-    updateRGB();
-  }
+  if (!RGB_updated) updateRGB();
   return RGB_color.b;
 }
 
 int Color::hue() {
-  if (!HSB_updated) {
-    updateHSB();
-  }
+  if (!HSB_updated) updateHSB();
   return HSB_color.h;
 }
 
-byte Color::saturation() {
-  if (!HSB_updated) {
-    updateHSB();
-  }
+byte Color::sat() {
+  if (!HSB_updated) updateHSB();
   return HSB_color.s;
 }
 
-byte Color::brightness() {
-  if (!HSB_updated) {
-    updateHSB();
-  }
+byte Color::bri() {
+  if (!HSB_updated) updateHSB();
   return HSB_color.b;
 }
 
@@ -101,38 +87,38 @@ void Color::add(Color toAdd) {
 }
 
 void Color::addHDR(Color toAdd, float fadeFac) {
-  if (fadeFac != 0.) {
-    int r = red() + toAdd.red() * fadeFac;
-    int g = green() + toAdd.green() * fadeFac;
-    int b = blue() + toAdd.blue() * fadeFac;
+  if (fadeFac == 0.) return;
 
-    int maxVal = r;
-    if (g > maxVal) maxVal = g;
-    if (b > maxVal) maxVal = b;
+  int r = red() + toAdd.red() * fadeFac;
+  int g = green() + toAdd.green() * fadeFac;
+  int b = blue() + toAdd.blue() * fadeFac;
 
-    if (maxVal > 255) {
-      float mult = 255. / maxVal;
-      r *= mult;
-      g *= mult;
-      b *= mult;
-    }
+  int maxVal = r;
+  if (g > maxVal) maxVal = g;
+  if (b > maxVal) maxVal = b;
 
-    setRGB(r, g, b);
+  if (maxVal > 255) {
+    float mult = 255. / maxVal;
+    r *= mult;
+    g *= mult;
+    b *= mult;
   }
+
+  setRGB(r, g, b);
 }
 
 void Color::multiply(Color toMult, float fadeFac) {
-  if (fadeFac != 0.) {
-    byte r = red();
-    byte g = green();
-    byte b = blue();
+  if (fadeFac == 0.) return;
 
-    if (toMult.red() != 255) r = r * (toMult.red() + (255 - toMult.red()) * (1 - fadeFac)) / 255;
-    if (toMult.green() != 255) g = g * (toMult.green() + (255 - toMult.green()) * (1 - fadeFac)) / 255;
-    if (toMult.blue() != 255) b = b * (toMult.blue() + (255 - toMult.blue()) * (1 - fadeFac)) / 255;
+  byte r = red();
+  byte g = green();
+  byte b = blue();
 
-    setRGB(r, g, b);
-  }
+  if (toMult.red() != 255) r = r * (toMult.red() + (255 - toMult.red()) * (1 - fadeFac)) / 255;
+  if (toMult.green() != 255) g = g * (toMult.green() + (255 - toMult.green()) * (1 - fadeFac)) / 255;
+  if (toMult.blue() != 255) b = b * (toMult.blue() + (255 - toMult.blue()) * (1 - fadeFac)) / 255;
+
+  setRGB(r, g, b);
 }
 
 void Color::multiply(Color toMult) {
@@ -148,12 +134,12 @@ void Color::multiply(Color toMult) {
 }
 
 void Color::multiply(float multFac) {
-  if (multFac != 1.) {
-    byte r = red() * multFac;
-    byte g = green() * multFac;
-    byte b = blue() * multFac;
-    setRGB(r, g, b);
-  }
+  if (multFac == 1.) return;
+
+  byte r = red() * multFac;
+  byte g = green() * multFac;
+  byte b = blue() * multFac;
+  setRGB(r, g, b);
 }
 
 void Color::fade(Color toFade, float fadeFac) {
@@ -174,8 +160,8 @@ void Color::fade(Color c1, Color c2, float fadeFac) {
 }
 
 //// convert hsb to rgb
-RGB Color::HSBtoRGB(HSB *color) {
-  RGB output;
+RGBCol Color::HSBtoRGB(HSBCol *color) {
+  RGBCol output;
   int hue = color->h % 360;
   byte bri = min(color->b, 100) * 2.55;
   if (color->s == 0) {  // Acromatic color (gray). Hue doesn't mind.
@@ -226,11 +212,11 @@ RGB Color::HSBtoRGB(HSB *color) {
   return output;
 }
 
-HSB Color::RGBtoHSB(RGB *color) {
+HSBCol Color::RGBtoHSB(RGBCol *color) {
   byte max_rgb = max(max(color->r, color->g), color->b);
   byte min_rgb = min(min(color->r, color->g), color->b);
 
-  HSB output;
+  HSBCol output;
   output.s = max_rgb - min_rgb;
 
   if (output.s == 0)

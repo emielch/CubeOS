@@ -1,22 +1,21 @@
-#include "OrbsManager.h"
+#include "OrbsAnim.h"
 
-void OrbsManager::init(void (*_renderInterrupt)()) {
-  renderInterrupt = _renderInterrupt;
+void OrbsAnim::_init() {
   for (int i = 0; i < orbAm; i++) {
     orbs[i].init(random(80 + CUBEWIDTH * 20, 400 + CUBEWIDTH * 50) / 100., random(100, 500) / 100., i * 137.508);
   }
 }
 
-void OrbsManager::update() {
+void OrbsAnim::_update() {
   touchInput();
   for (int i = 0; i < orbAm; i++) {
-    renderInterrupt();
+    cubeOS.renderInterrupt();
     orbs[i].move(cube->getDt());
     orbs[i].render();
   }
 }
 
-void OrbsManager::touchInput() {
+void OrbsAnim::touchInput() {
   // Vector3 spd = touchbarManager.getSpd();
   // float r = touchbarManager.getRotationSpd();
   // float s = touchbarManager.getScaleSpd();
@@ -27,5 +26,3 @@ void OrbsManager::touchInput() {
   //   orbs[i].scale(s);
   // }
 }
-
-OrbsManager orbsManager;

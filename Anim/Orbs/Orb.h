@@ -1,6 +1,8 @@
 #pragma once
 
-#include "../../Color/Color.h"
+#include <Arduino.h>
+
+#include "../Anim.h"
 #include "Vector3.h"
 
 class Orb {

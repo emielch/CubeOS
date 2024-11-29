@@ -1,16 +1,11 @@
-#include "SineManager.h"
+#include "SineAnim.h"
 
-#include "CubeOS\Demo\DemoManager.h"
-#include "CubeOS\Driver\CubeDriver.h"
 #include "math8.h"
 
-extern CubeDriver* cube;
-
-void SineManager::init(void (*_renderInterrupt)()) {
-  renderInterrupt = _renderInterrupt;
+void SineAnim::_init() {
 }
 
-void SineManager::update() {
+void SineAnim::_update() {
   // phaseSpd += touchbarManager.getSpd().x * 0.5;
   // phaseSpd = constrain(phaseSpd, 0, 10);
   // hueOffset += touchbarManager.getSpd().z * 10;
@@ -20,7 +15,7 @@ void SineManager::update() {
   while (phase > 2 * PI) phase -= 2 * PI;
 
   for (uint8_t x = 0; x < CUBEWIDTH; x++) {
-    renderInterrupt();
+    cubeOS.renderInterrupt();
     // convert cube x to floating point coordinate between x_min and x_max
     float xprime = mapf(x, 0, CUBEWIDTH - 1, x_min, x_max);
     for (uint8_t z = 0; z < CUBEDEPTH; z++) {
@@ -36,11 +31,9 @@ void SineManager::update() {
       int cy = ceil(y) + 1;
       for (int _y = fy; _y <= cy; _y++) {
         float bri = 1 - max(abs(y - _y) * 0.5, 0);
-        Color col = Color(hueOffset + y * hueScale, 100, 100 * bri, HSB_MODE);
+        Color col = Color(hueOffset + y * hueScale, 100, 100 * bri, HSB);
         cube->setPixel(x, _y, z, col);
       }
     }
   }
 }
-
-SineManager sineManager;

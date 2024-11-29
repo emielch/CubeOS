@@ -1,6 +1,6 @@
 #include "TimeManager.h"
 
-#include "../Demo/DemoManager.h"
+#include "../CubeOS.h"
 #include "TimeUtils.h"
 
 elapsedMillis sinceAlarmCheck = 0;
@@ -11,7 +11,7 @@ void TimeManager::update() {
 
   int weekday = getWeekDay(now());
   if (!dayOn[weekday]) {  // if it's set to be off today
-    demoManager.disableDemo();
+    cubeOS.disableAnim();
     return;
   }
 
@@ -23,14 +23,14 @@ void TimeManager::update() {
 }
 
 void TimeManager::setOnOff(bool val) {
-  if (val && demoManager.getDemoEnabled()) {
+  if (val && cubeOS.getAnimEnabled()) {
     forcingOn = false;
-  } else if (val && !demoManager.getDemoEnabled() && !forcingOff) {
-    demoManager.enableDemo();
-  } else if (!val && !demoManager.getDemoEnabled()) {
+  } else if (val && !cubeOS.getAnimEnabled() && !forcingOff) {
+    cubeOS.enableAnim();
+  } else if (!val && !cubeOS.getAnimEnabled()) {
     forcingOff = false;
-  } else if (!val && demoManager.getDemoEnabled() && !forcingOn) {
-    demoManager.disableDemo();
+  } else if (!val && cubeOS.getAnimEnabled() && !forcingOn) {
+    cubeOS.disableAnim();
   }
 }
 

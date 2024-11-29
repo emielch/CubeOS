@@ -2,14 +2,15 @@
 
 #include <Arduino.h>
 
-class SineManager {
- public:
-  void init(void (*_renderInterrupt)());
-  void update();
+#include "../Anim.h"
 
+class SineAnim : public Anim {
  private:
+  void _init();
+  void _update();
+  const char* getName() { return "Sine"; }
+
   int rainbowColors[180];
-  void (*renderInterrupt)();
 
   float x_min = -2;
   float x_max = 2;
@@ -20,5 +21,3 @@ class SineManager {
   float hueOffset = 30;
   float hueScale = 15;
 };
-
-extern SineManager sineManager;

@@ -2,9 +2,10 @@
 
 #include <EEPROM.h>
 
+#include "Anim/AnimManager.h"
 #include "Audio/AudioManager.h"
-#include "Demo/DemoManager.h"
-#include "Driver/CubeDriver.h"
+// #include "Demo/DemoManager.h"
+#include "CubeOS.h"
 #include "Time/TimeManager.h"
 
 // reboot is the same for all ARM devices
@@ -120,7 +121,7 @@ void SerialStreamManager::readSerial() {
       }
     }
     float bri = Serial.readString(5).toFloat();
-    demoManager.setBri(bri, startChar == 'B');
+    cubeOS.setBri(bri, startChar == 'b');
 
     ///// DEVICE INFO /////
   } else if (startChar == '?') {
@@ -137,25 +138,21 @@ void SerialStreamManager::readSerial() {
     Serial.printf("FPS: %.2f\r\n", cube->getFPS());
     timeManager.printCurrTime();
   } else if (startChar == 'p') {
-    demoManager.togglePaused();
+    // demoManager.togglePaused();
   } else if (startChar == 'd') {
-    demoManager.enableDemo();
+    cubeOS.enableAnim();
     timeManager.forceOn();
   } else if (startChar == 'x') {
-    demoManager.disableDemo();
+    cubeOS.disableAnim();
     timeManager.forceOff();
-  } else if (startChar == 'r') {
-    demoManager.switchAnim(Rainbow);
-  } else if (startChar == 'o') {
-    demoManager.switchAnim(Orbs);
-  } else if (startChar == 's') {
-    demoManager.switchAnim(Sine);
-  } else if (startChar == 'c') {
-    demoManager.switchAnim(Specto);
+  } else if (startChar == '0') {
+    animManager.changeAnim(1);
+  } else if (startChar == '9') {
+    animManager.changeAnim(-1);
   } else if (startChar == '=') {
-    demoManager.incBri();
+    cubeOS.adjBri(1);
   } else if (startChar == '-') {
-    demoManager.decBri();
+    cubeOS.adjBri(-1);
   } else if (startChar == '[') {
     decreaseCubeID();
   } else if (startChar == ']') {
