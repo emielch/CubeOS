@@ -38,7 +38,7 @@ void SerialStreamManager::increaseCubeID() {
 }
 
 void SerialStreamManager::sendInfo() {
-  Serial.printf("CUBE,%i,%i,%i,%i\r\n", getCubeID(), cube->width, cube->height, cube->depth);
+  Serial.printf("CUBE,%i,%i,%i,%i\r\n", getCubeID(), CUBEWIDTH, CUBEHEIGHT, CUBEDEPTH);
 }
 
 void SerialStreamManager::update() {
@@ -71,9 +71,9 @@ void SerialStreamManager::readSerial() {
 
   ///// IMAGE FRAME /////
   if (startChar == '%') {
-    for (int z = 0; z < cube->depth; z++)
-      for (int y = 0; y < cube->height; y++)
-        for (int x = 0; x < cube->width; x++) {
+    for (int z = 0; z < CUBEDEPTH; z++)
+      for (int y = 0; y < CUBEHEIGHT; y++)
+        for (int x = 0; x < CUBEWIDTH; x++) {
           if (!waitForData(3, 100)) {
             Serial.clear();
             Serial.println("not received the expected amount of image samples");
@@ -164,6 +164,8 @@ void SerialStreamManager::readSerial() {
     Serial.println(cube->setDitherBits(max(cube->getDitherBits() - 1, 0)));
   } else if (startChar == '2') {
     Serial.println(cube->setDitherBits(cube->getDitherBits() + 1));
+  } else if (startChar == 'q') {
+    REBOOT;
   }
 #endif
   else if (startChar >= 0) {

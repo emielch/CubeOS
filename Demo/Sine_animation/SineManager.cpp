@@ -19,17 +19,17 @@ void SineManager::update() {
   phase += phaseSpd * cube->getDt();
   while (phase > 2 * PI) phase -= 2 * PI;
 
-  for (uint8_t x = 0; x < cube->width; x++) {
+  for (uint8_t x = 0; x < CUBEWIDTH; x++) {
     renderInterrupt();
     // convert cube x to floating point coordinate between x_min and x_max
-    float xprime = mapf(x, 0, cube->width - 1, x_min, x_max);
-    for (uint8_t z = 0; z < cube->depth; z++) {
+    float xprime = mapf(x, 0, CUBEWIDTH - 1, x_min, x_max);
+    for (uint8_t z = 0; z < CUBEDEPTH; z++) {
       // convert cube z to floating point coordinate between z_min and z_max
-      float zprime = mapf(z, 0, cube->depth - 1, z_min, z_max);
+      float zprime = mapf(z, 0, CUBEDEPTH - 1, z_min, z_max);
       // determine y floating point coordinate
       float yprime = sinf(phase + sqrtf(xprime * xprime + zprime * zprime));
       // convert floating point y back to cube y
-      float y = mapf(yprime, -1, 1, 0, cube->height - 1);
+      float y = mapf(yprime, -1, 1, 0, CUBEHEIGHT - 1);
       // display voxel on the cube
       // Color c = Color((hue16 >> 8) + y * 10, &RainbowGradientPalette[0]);
       int fy = floor(y) - 1;

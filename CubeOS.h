@@ -5,8 +5,9 @@
 #ifdef USB_MIDI_AUDIO_SERIAL
 #include "Audio/AudioManager.h"
 #endif
+
 #include "Demo/DemoManager.h"
-#include "Driver.h"
+#include "Driver/CubeDriver.h"
 #include "SerialStreamManager.h"
 #include "Time/TimeManager.h"
 
@@ -19,3 +20,4 @@ class CubeOS {
 };
 
 extern CubeOS cubeOS;
+extern CubeDriver* cube;

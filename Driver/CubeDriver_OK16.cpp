@@ -1,8 +1,27 @@
 #if CUBE16
 
-#include "CubeDriver_OK16.h"
+#include "CubeDriver.h"
 
-void CubeDriver_OK16::init() {
+#if DITHER
+#include <OctoWS2811_Dither.h>
+#else
+#include <OctoWS2811.h>
+#endif
+
+static const int LEDS_PER_CHANNEL = 128;
+static const int numPins = 32;
+static int displayMemory[LEDS_PER_CHANNEL * numPins * 3 / 4];  // * 3 for three bytes per LED, / 4 for 4 bytes in an int
+static int drawingMemory[LEDS_PER_CHANNEL * numPins * 3 / 4];
+#if DITHER
+static OctoWS2811_Dither *leds;
+#else
+static OctoWS2811 *leds;
+#endif
+
+uint32_t bufsize;
+int posLUT[CUBEWIDTH][CUBEHEIGHT][CUBEDEPTH];
+
+void CubeDriver::init() {
   bufsize = LEDS_PER_CHANNEL * numPins * 3;
   const int config = WS2811_GRB | WS2811_800kHz;
 #if ESP_AUDIO
@@ -17,17 +36,17 @@ void CubeDriver_OK16::init() {
 #endif
   leds->begin();
 
-  for (int z = 0; z < depth; z++) {
-    for (int x = 0; x < width; x++) {
-      for (int y = 0; y < height; y++) {
+  for (int z = 0; z < CUBEDEPTH; z++) {
+    for (int x = 0; x < CUBEWIDTH; x++) {
+      for (int y = 0; y < CUBEHEIGHT; y++) {
         int id = z * LEDS_PER_CHANNEL * 2;
 
-        if (x < width / 2) {
-          id += x * height;
-          id += (x % 2) ? (height - 1 - y) : y;
+        if (x < CUBEWIDTH / 2) {
+          id += x * CUBEHEIGHT;
+          id += (x % 2) ? (CUBEHEIGHT - 1 - y) : y;
         } else {
-          id += (width - 1 - x + width / 2) * height;
-          id += (x % 2) ? y : (height - 1 - y);
+          id += (CUBEWIDTH - 1 - x + CUBEWIDTH / 2) * CUBEHEIGHT;
+          id += (x % 2) ? y : (CUBEHEIGHT - 1 - y);
         }
 
         posLUT[x][y][z] = id;
@@ -36,21 +55,29 @@ void CubeDriver_OK16::init() {
   }
 }
 
-byte CubeDriver_OK16::setDitherBits(byte ditBits) {
+byte CubeDriver::setDitherBits(byte ditBits) {
 #if DITHER
   return leds->setDitherBits(ditBits);
 #endif
   return 0;
 }
 
-byte CubeDriver_OK16::getDitherBits() {
+byte CubeDriver::getDitherBits() {
 #if DITHER
   return leds->getDitherBits();
 #endif
   return 0;
 }
 
-void CubeDriver_OK16::setPixel(int id, byte r, byte g, byte b) {
+void CubeDriver::setBrightness(double bri) {
+#if DITHER
+  leds->ditherLUTCalc(bri);
+#else
+  brightness = bri * 0.01;
+#endif
+};
+
+void CubeDriver::setPixel(int id, byte r, byte g, byte b) {
   if (id == -1) return;
 #if DITHER
   leds->setPixel(id, r, g, b);
@@ -59,7 +86,7 @@ void CubeDriver_OK16::setPixel(int id, byte r, byte g, byte b) {
 #endif
 }
 
-void CubeDriver_OK16::setPixel(int id, int c) {
+void CubeDriver::setPixel(int id, int c) {
   if (id == -1) return;
 #if DITHER
   leds->setPixel(id, c);
@@ -71,7 +98,7 @@ void CubeDriver_OK16::setPixel(int id, int c) {
 #endif
 }
 
-Color CubeDriver_OK16::getPixel(int id) {
+Color CubeDriver::getPixel(int id) {
   if (id == -1) return Color(0, 0, 0, RGB_MODE);
 
   uint32_t conn = leds->getPixel(id);  // retrieve the color that has already been saved
@@ -86,20 +113,20 @@ Color CubeDriver_OK16::getPixel(int id) {
   return c;
 }
 
-bool CubeDriver_OK16::busy() {
+bool CubeDriver::busy() {
   return leds->busy();
 }
 
-void CubeDriver_OK16::show() {
+void CubeDriver::show() {
   leds->show();
 }
 
-void CubeDriver_OK16::resetLEDs() {
+void CubeDriver::resetLEDs() {
   memset(drawingMemory, 0, bufsize);
 }
 
-int CubeDriver_OK16::getPixelLedId(byte x, byte y, byte z) {
-  if (x >= width || y >= height || z >= depth) return -1;
+int CubeDriver::getPixelLedId(byte x, byte y, byte z) {
+  if (x >= CUBEWIDTH || y >= CUBEHEIGHT || z >= CUBEDEPTH) return -1;
   return posLUT[x][y][z];
 }
 

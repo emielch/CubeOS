@@ -19,3 +19,4 @@ void CubeOS::update() {
 }
 
 CubeOS cubeOS;
+CubeDriver* cube = new CubeDriver();

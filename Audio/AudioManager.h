@@ -1,3 +1,5 @@
+#pragma once
+
 #ifdef USB_MIDI_AUDIO_SERIAL
 #include <Arduino.h>
 

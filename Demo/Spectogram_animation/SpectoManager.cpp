@@ -2,7 +2,7 @@
 
 #include "CubeOS\Audio\AudioManager.h"
 #include "CubeOS\Demo\DemoManager.h"
-#include "CubeOS\Driver\CubeDriver.h"
+#include "CubeOS\CubeOS.h"
 
 extern CubeDriver* cube;
 
@@ -19,12 +19,12 @@ void SpectoManager::update() {
 
   int peaksID;
 
-  for (uint8_t x = 0; x < cube->width; x++) {
-    for (uint8_t z = 0; z < cube->depth; z++) {
+  for (uint8_t x = 0; x < CUBEWIDTH; x++) {
+    for (uint8_t z = 0; z < CUBEDEPTH; z++) {
       peaksID = (lastPeaksID - z + 16) % 16;
       float level = x > 15 ? 0 : peaks[peaksID][x];
-      int height = level * 50 * cube->height;
-      for (int y = 0; y <= cube->height; y++) {
+      int height = level * 50 * CUBEHEIGHT;
+      for (int y = 0; y <= CUBEHEIGHT; y++) {
         float bri = y < height ? 100 : 0;
         Color col = Color(y * 15 + z * 5, 100 - z * 4 + 20, max(bri - z * 1.5, 0), HSB_MODE);
         cube->setPixel(x, y, z, col);
