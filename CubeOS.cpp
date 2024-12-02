@@ -8,9 +8,6 @@
 #include "Audio/AudioManager.h"
 #endif
 
-#define STREAM_BLACKOUT_DELAY 1500
-#define DEMO_DELAY 3000
-
 void CubeOS::init() {
   cube->init();
   serialStreamManager.init();
@@ -20,13 +17,11 @@ void CubeOS::init() {
   animManager.init();
 
 #if DITHER
-  animBri = 50;
-  streamBri = 50;
+  bri = 50;
 #else
-  animBri = 15;
-  streamBri = 15;
+  bri = 15;
 #endif
-  stopStream();
+  cube->setBrightness(bri);
 }
 
 void CubeOS::update() {
@@ -36,43 +31,17 @@ void CubeOS::update() {
 #endif
   timeManager.update();
 
-  if (serialStreamManager.getSinceNewFrame() > STREAM_BLACKOUT_DELAY && streaming) cube->update();  // show black frame when streaming has stopped but anims havent started yet
-  if (serialStreamManager.getSinceNewFrame() < STREAM_BLACKOUT_DELAY && !streaming) startStream();
-  if (serialStreamManager.getSinceNewFrame() > DEMO_DELAY && streaming) stopStream();
-
-  if (!streaming && !animEnabled) cube->update();  // show black frame if there is nothing to display
-
-  if (animEnabled && !streaming)
-    animManager.update();
+  animManager.update();
 }
 
-void CubeOS::setBri(double bri, bool stream) {
-  double* briPntr = stream ? &streamBri : &animBri;
-  *briPntr = constrain(bri, 0, 400);
-  if (stream == streaming) cube->setBrightness(*briPntr);
-  Serial.println(*briPntr, 1);
+void CubeOS::setBri(double v) {
+  bri = constrain(v, 0, 400);
+  cube->setBrightness(bri);
+  Serial.println(bri, 1);
 }
 
 void CubeOS::adjBri(double v) {
-  setBri((streaming ? streamBri : animBri) + v, streaming);
-}
-
-void CubeOS::startStream() {
-  streaming = true;
-  cube->setBrightness(streamBri);
-}
-
-void CubeOS::stopStream() {
-  streaming = false;
-  cube->setBrightness(animBri);
-}
-
-void CubeOS::enableAnim() {
-  animEnabled = true;
-}
-
-void CubeOS::disableAnim() {
-  animEnabled = false;
+  setBri(bri + v);
 }
 
 CubeOS cubeOS;

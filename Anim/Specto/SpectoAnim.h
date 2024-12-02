@@ -7,7 +7,8 @@
 class SpectoAnim : public Anim {
  private:
   void _init();
-  void _update();
+  void _update(bool active);
+  void _render();
   const char* getName() { return "Specto"; }
 
   float peaks[16][16];

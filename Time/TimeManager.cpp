@@ -11,7 +11,7 @@ void TimeManager::update() {
 
   int weekday = getWeekDay(now());
   if (!dayOn[weekday]) {  // if it's set to be off today
-    cubeOS.disableAnim();
+    // cubeOS.disableAnim();
     return;
   }
 
@@ -23,15 +23,15 @@ void TimeManager::update() {
 }
 
 void TimeManager::setOnOff(bool val) {
-  if (val && cubeOS.getAnimEnabled()) {
-    forcingOn = false;
-  } else if (val && !cubeOS.getAnimEnabled() && !forcingOff) {
-    cubeOS.enableAnim();
-  } else if (!val && !cubeOS.getAnimEnabled()) {
-    forcingOff = false;
-  } else if (!val && cubeOS.getAnimEnabled() && !forcingOn) {
-    cubeOS.disableAnim();
-  }
+  // if (val && cubeOS.getAnimEnabled()) {
+  //   forcingOn = false;
+  // } else if (val && !cubeOS.getAnimEnabled() && !forcingOff) {
+  //   cubeOS.enableAnim();
+  // } else if (!val && !cubeOS.getAnimEnabled()) {
+  //   forcingOff = false;
+  // } else if (!val && cubeOS.getAnimEnabled() && !forcingOn) {
+  //   cubeOS.disableAnim();
+  // }
 }
 
 unsigned long TimeManager::now() {

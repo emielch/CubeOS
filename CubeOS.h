@@ -10,19 +10,11 @@ class CubeOS {
   void update();
   void renderInterrupt() {};
 
-  void startStream();
-  void stopStream();
-
-  void enableAnim();
-  void disableAnim();
-  bool getAnimEnabled() { return animEnabled; }
-
-  void setBri(double bri, bool stream = false);
+  void setBri(double v);
   void adjBri(double v);
 
  private:
-  double animBri, streamBri;
-  bool streaming, animEnabled;
+  double bri;
 };
 
 extern CubeOS cubeOS;

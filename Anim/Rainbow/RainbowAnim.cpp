@@ -14,7 +14,14 @@ void RainbowAnim::_init() {
   }
 }
 
-void RainbowAnim::_update() {
+void RainbowAnim::_update(bool active) {
+  if (!active) return;
+
+  currColorId += cube->getDt() * 30;
+  if (currColorId >= 180) currColorId = 0;
+}
+
+void RainbowAnim::_render() {
   for (byte z = 0; z < CUBEDEPTH; z++) {
     cubeOS.renderInterrupt();
     for (byte y = 0; y < CUBEHEIGHT; y++)
@@ -23,6 +30,4 @@ void RainbowAnim::_update() {
         cube->setPixel(x, y, z, rainbowColors[index]);
       }
   }
-  currColorId += cube->getDt() * 30;
-  if (currColorId >= 180) currColorId = 0;
 }

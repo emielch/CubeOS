@@ -7,7 +7,12 @@ void Anim::init() {
   animManager.registerAnim(this);
 }
 
-void Anim::update() {
+void Anim::update(bool active) {
   cubeOS.renderInterrupt();
-  _update();
+  _update(active);
+}
+
+void Anim::render() {
+  cubeOS.renderInterrupt();
+  _render();
 }

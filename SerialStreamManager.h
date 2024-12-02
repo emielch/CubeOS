@@ -6,19 +6,11 @@ class SerialStreamManager {
  public:
   void init();
   void update();
-  unsigned long getSinceNewFrame() { return sinceNewFrame; }
-  byte getCubeID();
-  void setCubeID(byte ID);
-  static void decreaseCubeID();
-  static void increaseCubeID();
 
  private:
   void readSerial();
-  bool waitForData(int bytes, unsigned long time);
-  elapsedMillis sinceNewFrame = 999999;
   unsigned long unknownCount = 0;
   elapsedMillis sinceUnknownChar = 999999;
-  void sendInfo();
 };
 
 extern SerialStreamManager serialStreamManager;

@@ -6,23 +6,32 @@ void OrbsAnim::_init() {
   }
 }
 
-void OrbsAnim::_update() {
-  touchInput();
+void OrbsAnim::_update(bool active) {
+  if (!active) return;
+
   for (int i = 0; i < orbAm; i++) {
     cubeOS.renderInterrupt();
     orbs[i].move(cube->getDt());
+  }
+}
+
+void OrbsAnim::_render() {
+  for (int i = 0; i < orbAm; i++) {
     orbs[i].render();
   }
 }
 
-void OrbsAnim::touchInput() {
-  // Vector3 spd = touchbarManager.getSpd();
-  // float r = touchbarManager.getRotationSpd();
-  // float s = touchbarManager.getScaleSpd();
-
-  // for (int i = 0; i < orbAm; i++) {
-  //   orbs[i].translate(spd);
-  //   orbs[i].rotate(r);
-  //   orbs[i].scale(s);
-  // }
-}
+void OrbsAnim::userInput(Axis axis, double val) {
+  if (axis == X)
+    for (int i = 0; i < orbAm; i++) {
+      orbs[i].translate(Vector3(val, 0, 0));
+    }
+  else if (axis == Y)
+    for (int i = 0; i < orbAm; i++) {
+      orbs[i].rotate(val);
+    }
+  else if (axis == Z)
+    for (int i = 0; i < orbAm; i++) {
+      orbs[i].scale(val);
+    }
+};

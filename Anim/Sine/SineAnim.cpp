@@ -5,15 +5,14 @@
 void SineAnim::_init() {
 }
 
-void SineAnim::_update() {
-  // phaseSpd += touchbarManager.getSpd().x * 0.5;
-  // phaseSpd = constrain(phaseSpd, 0, 10);
-  // hueOffset += touchbarManager.getSpd().z * 10;
-  // hueScale += touchbarManager.getRotationSpd() * 10;
+void SineAnim::_update(bool active) {
+  if (!active) return;
 
   phase += phaseSpd * cube->getDt();
   while (phase > 2 * PI) phase -= 2 * PI;
+}
 
+void SineAnim::_render() {
   for (uint8_t x = 0; x < CUBEWIDTH; x++) {
     cubeOS.renderInterrupt();
     // convert cube x to floating point coordinate between x_min and x_max
@@ -36,4 +35,13 @@ void SineAnim::_update() {
       }
     }
   }
+}
+
+void SineAnim::userInput(Axis axis, double val) {
+  if (axis == X)
+    phaseSpd = constrain(phaseSpd + val, 0, 10);
+  else if (axis == Y)
+    hueOffset += val * 10;
+  else if (axis == Z)
+    hueScale += val * 10;
 }

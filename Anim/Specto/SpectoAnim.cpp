@@ -5,7 +5,11 @@
 void SpectoAnim::_init() {
 }
 
-void SpectoAnim::_update() {
+void SpectoAnim::_update(bool active) {
+  if (!active) return;
+}
+
+void SpectoAnim::_render() {
 #ifdef USB_MIDI_AUDIO_SERIAL
   if (audioManager.newData)
     for (int i = 0; i < 16; i++) {

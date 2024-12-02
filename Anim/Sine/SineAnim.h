@@ -7,8 +7,10 @@
 class SineAnim : public Anim {
  private:
   void _init();
-  void _update();
+  void _update(bool active);
+  void _render();
   const char* getName() { return "Sine"; }
+  void userInput(Axis axis, double val);
 
   int rainbowColors[180];
 
