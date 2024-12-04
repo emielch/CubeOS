@@ -44,5 +44,9 @@ void CubeOS::adjBri(double v) {
   setBri(bri + v);
 }
 
+void CubeOS::renderInterrupt() {
+  
+};
+
 CubeOS cubeOS;
 CubeDriver* cube = new CubeDriver();

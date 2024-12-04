@@ -14,13 +14,23 @@ class AnimManager {
   void shiftAnim(int step);
   void setAnim(int id);
   void userInput(Axis axis, double val);
+  void enable();
+  void disable();
+  bool getEnabled() { return enabled; };
+  void togglePaused() { paused = !paused; };
 
   int getCurrAnimID() { return currAnimID; }
 
  private:
   Anim* allAnims[MAX_ANIMS];
   int animAm;
-  byte currAnimID = 0;
+  byte currAnimID;
+  byte savedAnimID;
+  bool enabled;
+  bool paused;
+
+  void updateBri();
+  double savedBri = -1;
 };
 
 extern AnimManager animManager;

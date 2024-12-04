@@ -1,6 +1,6 @@
 #include "TimeManager.h"
 
-#include "../CubeOS.h"
+#include "../Anim/AnimManager.h"
 #include "TimeUtils.h"
 
 elapsedMillis sinceAlarmCheck = 0;
@@ -11,7 +11,7 @@ void TimeManager::update() {
 
   int weekday = getWeekDay(now());
   if (!dayOn[weekday]) {  // if it's set to be off today
-    // cubeOS.disableAnim();
+    animManager.disable();
     return;
   }
 
@@ -23,15 +23,15 @@ void TimeManager::update() {
 }
 
 void TimeManager::setOnOff(bool val) {
-  // if (val && cubeOS.getAnimEnabled()) {
-  //   forcingOn = false;
-  // } else if (val && !cubeOS.getAnimEnabled() && !forcingOff) {
-  //   cubeOS.enableAnim();
-  // } else if (!val && !cubeOS.getAnimEnabled()) {
-  //   forcingOff = false;
-  // } else if (!val && cubeOS.getAnimEnabled() && !forcingOn) {
-  //   cubeOS.disableAnim();
-  // }
+  if (val && animManager.getEnabled()) {
+    forcingOn = false;
+  } else if (val && !animManager.getEnabled() && !forcingOff) {
+    animManager.enable();
+  } else if (!val && !animManager.getEnabled()) {
+    forcingOff = false;
+  } else if (!val && animManager.getEnabled() && !forcingOn) {
+    animManager.disable();
+  }
 }
 
 unsigned long TimeManager::now() {
@@ -40,6 +40,12 @@ unsigned long TimeManager::now() {
 void TimeManager::setTime(unsigned long t) {
   Teensy3Clock.set(t);
 }
+void TimeManager::setOnTime(byte h, byte m, byte s) {
+  onTime = convertTime(h, m, s);
+}
+void TimeManager::setOffTime(byte h, byte m, byte s) {
+  offTime = convertTime(h, m, s);
+};
 
 void TimeManager::setOnDay(int day, bool on) {
   if (day < 0 || day > 6) return;

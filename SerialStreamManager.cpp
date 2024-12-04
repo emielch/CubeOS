@@ -53,7 +53,10 @@ void SerialStreamManager::readSerial() {
       }
     }
     float bri = Serial.readString(5).toFloat();
-    cubeOS.setBri(bri);
+    if (startChar == 'B')
+      cubeOS.setBri(bri);
+    else
+      StreamAnim::setBri(bri);
   }
 
   ///// DEVICE INFO /////
@@ -71,12 +74,12 @@ void SerialStreamManager::readSerial() {
     Serial.printf("FPS: %.2f\r\n", cube->getFPS());
     timeManager.printCurrTime();
   } else if (startChar == 'p') {
-    // demoManager.togglePaused();
+    animManager.togglePaused();
   } else if (startChar == 'd') {
-    // cubeOS.enableAnim();
+    animManager.enable();
     timeManager.forceOn();
   } else if (startChar == 'x') {
-    // cubeOS.disableAnim();
+    animManager.disable();
     timeManager.forceOff();
   } else if (startChar == '0') {
     animManager.shiftAnim(1);
@@ -94,8 +97,6 @@ void SerialStreamManager::readSerial() {
     Serial.println(cube->setDitherBits(max(cube->getDitherBits() - 1, 0)));
   } else if (startChar == '2') {
     Serial.println(cube->setDitherBits(cube->getDitherBits() + 1));
-  } else if (startChar == 'q') {
-    REBOOT;
   }
 #endif
   else if (startChar >= 0) {

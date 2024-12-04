@@ -14,11 +14,14 @@ class StreamAnim : public Anim {
   static void shiftCubeID(int val);
   static void sendInfo();
 
+  static void setBri(double v);
+
  private:
   void _init();
   void _update(bool active);
   void _render();
   const char* getName() { return "Stream"; }
+  void userInput(Axis axis, double val);
 
   static bool waitForData(int bytes, unsigned long time);
   int prevAnim = 0;

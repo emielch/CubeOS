@@ -22,6 +22,10 @@ class Anim {
   virtual const char* getName() = 0;
 
   virtual void userInput(Axis axis, double val) {};
+  virtual double getBri();
+
+ protected:
+  double bri = -1;
 
  private:
   int id;

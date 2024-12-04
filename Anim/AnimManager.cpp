@@ -15,12 +15,15 @@ StreamAnim stream;
 OffAnim off;
 
 void AnimManager::init() {
+  off.init();
   sine.init();
   orbs.init();
   rainbow.init();
   specto.init();
   stream.init();
-  off.init();
+
+  enable();
+  paused = false;
 
   for (int i = 0; i < animAm; i++) {
     allAnims[i]->setId(i);
@@ -28,9 +31,11 @@ void AnimManager::init() {
 }
 
 void AnimManager::update() {
-  for (int i = 0; i < animAm; i++) {
-    allAnims[i]->update(i == currAnimID);
-  }
+  if (!paused)
+    for (int i = 0; i < animAm; i++) {
+      allAnims[i]->update(i == currAnimID);
+    }
+  updateBri();
   allAnims[currAnimID]->render();
   cube->update();
 }
@@ -59,8 +64,35 @@ void AnimManager::setAnim(int id) {
   Serial.printf("%i: %s\r\n", currAnimID, allAnims[currAnimID]->getName());
 }
 
+void AnimManager::enable() {
+  if (enabled) return;
+  enabled = true;
+  if (savedAnimID == 0) savedAnimID = 1;
+  setAnim(savedAnimID);
+}
+void AnimManager::disable() {
+  if (!enabled) return;
+  enabled = false;
+  savedAnimID = currAnimID;
+  setAnim(0);
+}
+
 void AnimManager::userInput(Axis axis, double val) {
   allAnims[currAnimID]->userInput(axis, val);
 };
+
+void AnimManager::updateBri() {
+  double requestedBri = allAnims[currAnimID]->getBri();
+  if (requestedBri == -1) {
+    if (savedBri == -1) return;
+    cubeOS.setBri(savedBri);
+    savedBri = -1;
+    return;
+  }
+  if (cubeOS.getBri() != requestedBri) {
+    if (savedBri == -1) savedBri = cubeOS.getBri();
+    cubeOS.setBri(requestedBri);
+  }
+}
 
 AnimManager animManager;

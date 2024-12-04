@@ -11,8 +11,10 @@
 byte frameData[CUBEDEPTH * CUBEHEIGHT * CUBEWIDTH * 3];
 bool frameAvailable = false;
 elapsedMillis sinceFrame = 999990;
+StreamAnim* streamAnim;
 
 void StreamAnim::_init() {
+  streamAnim = this;
 }
 
 void StreamAnim::_update(bool active) {
@@ -111,4 +113,17 @@ void StreamAnim::shiftCubeID(int val) {
 
 void StreamAnim::sendInfo() {
   Serial.printf("CUBE,%i,%i,%i,%i\r\n", getCubeID(), CUBEWIDTH, CUBEHEIGHT, CUBEDEPTH);
+}
+
+void StreamAnim::setBri(double v){
+  streamAnim->bri = v;
+}
+
+void StreamAnim::userInput(Axis axis, double val) {
+  if (axis == X)
+    return;
+  else if (axis == Y)
+    return;
+  else if (axis == Z)
+    shiftCubeID(val);
 }

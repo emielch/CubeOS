@@ -39,9 +39,9 @@ void SineAnim::_render() {
 
 void SineAnim::userInput(Axis axis, double val) {
   if (axis == X)
-    phaseSpd = constrain(phaseSpd + val, 0, 10);
+    phaseSpd = constrain(phaseSpd + val * 0.05, 0, 10);
   else if (axis == Y)
-    hueOffset += val * 10;
+    hueOffset += val;
   else if (axis == Z)
-    hueScale += val * 10;
+    hueScale += val * 5;
 }

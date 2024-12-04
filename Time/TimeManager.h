@@ -8,8 +8,8 @@ class TimeManager {
   void printCurrTime();
   unsigned long now();
   void setTime(unsigned long t);
-  void setOnTime(long t) { onTime = t; }
-  void setOffTime(long t) { offTime = t; };
+  void setOnTime(byte h, byte m, byte s);
+  void setOffTime(byte h, byte m, byte s);
   void setOnDay(int day, bool on);
   void forceOn() { forcingOn = true; };
   void forceOff() { forcingOff = true; };

@@ -29,3 +29,10 @@ void printTime(long t) {
   printDigits(getSeconds(t));
   Serial.println();
 }
+
+long convertTime(byte h, byte m, byte s) {
+  long t = s;
+  t += m * 60;
+  t += h * 60 * 60;
+  return t;
+}
