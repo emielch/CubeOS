@@ -74,6 +74,7 @@ void StreamAnim::readFrame() {
 }
 
 void StreamAnim::readAudio() {
+#ifdef USB_MIDI_AUDIO_SERIAL
   int8_t* buf = (int8_t*)audioManager.getBuffer();
 
   for (int i = 0; i < AUDIO_BLOCK_SAMPLES * 2; i += 2) {
@@ -94,6 +95,7 @@ void StreamAnim::readAudio() {
     audioManager.playBuffer();
   else
     Serial.println("Skipped block");
+#endif
 }
 
 byte StreamAnim::getCubeID() {
@@ -115,7 +117,7 @@ void StreamAnim::sendInfo() {
   Serial.printf("CUBE,%i,%i,%i,%i\r\n", getCubeID(), CUBEWIDTH, CUBEHEIGHT, CUBEDEPTH);
 }
 
-void StreamAnim::setBri(double v){
+void StreamAnim::setBri(double v) {
   streamAnim->bri = v;
 }
 
